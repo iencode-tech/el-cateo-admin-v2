@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/pages/workCertificate/WorkCertificate.scss"],"names":[],"mappings":"AAAA,qBAEQ,oBAAsB,CACtB,qBAAuB","file":"7.de829026.chunk.css","sourcesContent":[".pdfPreviewer {\r\n    iframe {\r\n        width: 100% !important;\r\n        height: 60vh !important;\r\n    }\r\n}"]}
