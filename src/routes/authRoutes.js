@@ -10,6 +10,8 @@ const Comingsoon = lazy(() => import("../pages/comingsoon/Comingsoon"));
 //farms
 const Farms = lazy(() => import("../pages/managefarms/list/List"));
 const AddFarms = lazy(() => import("../pages/managefarms/create/Create"));
+const ViewFarm = lazy(() => import("../pages/managefarms/view/View"));
+
 
 //others
 const ChangePassword = lazy(() => import("../pages/profile/changePassword/ChangePassword"));
@@ -96,6 +98,10 @@ const routes = [
     path: "/farms/create",
     component: <AddFarms/>
   },
+  {
+    path: "/farms/:id/view",
+    component: <ViewFarm/>
+  },
 
 //manage sectors
   {
@@ -118,6 +124,8 @@ const routes = [
     path: "/profile/edit",
     component: <EditProfile />,
   },
+
+  //manage persons
   {
     path: "/persons",
     component: <PersonList />,

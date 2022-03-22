@@ -1,12 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTree, faUsers, faFileAlt, faHome } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
 
-function Dashboard() {
 
+
+import axios from "axios";
+
+function Dashboard() {
+    var [user, setInfo] = useState([]);
+    var [page, setPage] = useState(0);
+    var [Udata, setUdata] = useState([]);
+    // const token = JSON.parse(localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME));
+    let getUsers = async () => {
+        await axios.get("http://localhost:7000/farms", { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+            const userData = response.data.data.dbData;
+            setInfo(userData);
+            if (response.data.data.data.length === 0) {
+
+                getUsers();
+                alert('No data found.');
+            }
+        }).catch(error => {
+            console.log(error.response)
+        });
+
+
+    };
+
+    const removeById = async (e, id) => {
+        e.preventDefault();
+        await axios.delete(`http://localhost:7000/farm/${id}/delete`, { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } })
+            .then(res => {
+                getUsers();
+            })
+            .catch(error => {
+                console.log(error.response)
+            });
+
+    }
     const breadCrumbs = [
         {
             name: "Dashboard",
@@ -19,7 +53,7 @@ function Dashboard() {
     ];
     useEffect(() => {
         document.title = `${process.env.REACT_APP_NAME}`;
-
+        getUsers();
     }, []);
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -77,14 +111,72 @@ function Dashboard() {
                                                     <tr>
                                                         <th>Sl.no.</th>
                                                         <th>Location</th>
+                                                        <th>Name</th>
                                                         <th>Area</th>
                                                         <th>Status</th>
-                                                        <th></th>
 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    {user.map((users, index) => (
+                                                        <tr key={index}>
+                                                            <td >{index + 1}</td>
+                                                            <td >{users.location}</td>
+                                                            <td >{users.name}</td>
+                                                            <td >{users.area}</td>
+                                                            {users.status === 1 &&
+                                                                <td>
+                                                                    Active
+                                                                </td>
+                                                            }
+                                                            {users.status === 0 &&
+                                                                <td>
+                                                                    Inactive
+                                                                </td>
+                                                            }
+                                                            <td>
+                                                                <button
+                                                                    className="btn btn-outline-app dropdown-toggle"
+                                                                    type="button"
+                                                                    data-bs-toggle="dropdown"
+                                                                    aria-expanded="false" >
+                                                                    Action
+                                                                </button>
+                                                                <ul
+                                                                    className="dropdown-menu">
+                                                                    <li>
+                                                                        <Link
+                                                                            className="dropdown-item"
+                                                                            to={`farms/${users.id}/view`}
+                                                                        >
+                                                                            View
+                                                                        </Link>
+                                                                    </li>
+                                                                    <li>
+                                                                        <Link
+                                                                            className="dropdown-item" >
+                                                                            Edit
+                                                                        </Link>
+                                                                    </li>
+                                                                    <li>
+                                                                        <Link
+                                                                            className="dropdown-item"
+                                                                            onClick={(e) => removeById(e, users.id)}>
+                                                                            Delete
+                                                                        </Link>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                    ))
+
+                                                    }
+
+
+                                                    {/* <tr>
                                                         <td>
                                                             1
                                                         </td>
@@ -496,7 +588,7 @@ function Dashboard() {
                                                                 </ul>
                                                             </div>
                                                         </td>
-                                                    </tr>
+                                                    </tr> */}
                                                 </tbody>
                                             </table>
                                         </div>

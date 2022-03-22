@@ -21,7 +21,7 @@ function FarmCreate() {
     const store = useSelector(selectAgriculturalPractice);
     const dispatch = useDispatch();
     const [firstLoad, setFirstLoad] = useState(true);
-    const pageName = "Add admin";
+    const pageName = "Add Farm";
     const breadCrumbs = [
         {
             name: "Dashboard",
@@ -67,9 +67,7 @@ function FarmCreate() {
 
                                     <form
                                         name={`${pageName}Create`}
-                                        encType={`multipart/form-data`}
-
-                                    >
+                                        encType={`multipart/form-data`}>
                                         <div className="card-body">
                                             <div className="row mb-3">
                                                 <div className="col-md-6">
@@ -119,16 +117,16 @@ function FarmCreate() {
 
 
                                                 <div className="col-md-6">
-                                                    <br />
-                                                    <label htmlFor="input4" className="form-label">
-                                                        Status <span className="text-danger">*</span>
-                                                    </label>
+                                                <label>Status<span className="text-danger">*</span></label>
+
                                                     <select
                                                         id="input4"
                                                         className="form-select"
-                                                        name="subscription"
+                                                        name="status"
 
                                                     >
+                                                        <option>Active</option>
+                                                        <option>Inactive</option>
                                                     </select>
                                                 </div>
 
