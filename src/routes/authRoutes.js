@@ -13,6 +13,9 @@ const AddFarms = lazy(() => import("../pages/managefarms/create/Create"));
 const ViewFarm = lazy(() => import("../pages/managefarms/view/View"));
 
 
+//sectors
+const Sectors = lazy(() => import("../pages/managesectors/list/List"))
+
 //others
 const ChangePassword = lazy(() => import("../pages/profile/changePassword/ChangePassword"));
 const EditProfile = lazy(() => import("../pages/profile/editProfile/EditProfile"));
@@ -106,7 +109,7 @@ const routes = [
 //manage sectors
   {
     path: "/sectors",
-    component: <Comingsoon/>
+    component: <Sectors/>
   },
 
 

@@ -23,7 +23,12 @@ import axios from "axios";
 
 
 function FarmView() {
-    var [user, setInfo] = useState([]);
+    var [user, setInfo] = useState({
+        name: "",
+        location: "",
+        area: "",
+        status: ""
+    });
     const params = useParams();
     const store = useSelector(selectAgriculturalPractice);
     const dispatch = useDispatch();
@@ -89,77 +94,91 @@ function FarmView() {
                                     </div>
                                     {/* {user.map((users) => ( */}
 
-                                        <form 
-                                            encType={`multipart/form-data`}>
-                                            <div className="card-body">
-                                                <div className="row mb-3">
-                                                    <div className="col-md-6">
-                                                        <div className="form-floating">
-                                                            <input
-                                                                name="firstname"
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="floatingInput"
-                                                                placeholder="name@example.com"
-                                                            />
-                                                            <label htmlFor="floatingInput">Name <span className="text-danger">*</span></label>
-                                                        </div>
+                                    <form
+                                        encType={`multipart/form-data`}>
+                                        <div className="card-body">
+                                            <div className="row mb-3">
+                                                <div className="col-md-6">
+                                                    <div className="form-floating">
+                                                        <input
+                                                            name="firstname"
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="floatingInput"
+                                                            placeholder="name@example.com"
+                                                            value={user.name}
+                                                            readOnly
+                                                        />
+                                                        <label htmlFor="floatingInput">Name <span className="text-danger">*</span></label>
                                                     </div>
-
-                                                    <div className="col-md-6">
-                                                        <div className="form-floating">
-                                                            <input
-                                                                name="lastname"
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="floatingInput"
-                                                                placeholder="name@example.com"
-
-                                                            />
-                                                            <label htmlFor="floatingInput">Location <span className="text-danger">*</span></label>
-                                                        </div>
-                                                        {/* <p style={{color: 'red'}}>{formErrors.lastname}</p> */}
-                                                    </div>
-
-                                                    <div className="mb-3">
-                                                        <br />
-                                                        <div className="form-floating">
-                                                            <textarea
-                                                                name="address"
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="floatingInput"
-                                                                placeholder="name@example.com"
-
-                                                            />
-                                                            <label htmlFor="floatingInput">Area<span className="text-danger">*</span></label>
-                                                        </div>
-                                                    </div>
-
-
-
-                                                    <div className="col-md-6">
-                                                        <br />
-                                                        <label htmlFor="input4" className="form-label">
-                                                            Status <span className="text-danger">*</span>
-                                                        </label>
-                                                        <select
-                                                            id="input4"
-                                                            className="form-select"
-                                                            name="subscription"
-
-                                                        >
-                                                        </select>
-                                                    </div>
-
-
-
-
-
-
                                                 </div>
+
+                                                <div className="col-md-6">
+                                                    <div className="form-floating">
+                                                        <input
+                                                            name="lastname"
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="floatingInput"
+                                                            placeholder="name@example.com"
+                                                            value={user.location}
+                                                            readOnly
+                                                        />
+                                                        <label htmlFor="floatingInput">Location <span className="text-danger">*</span></label>
+                                                    </div>
+                                                    {/* <p style={{color: 'red'}}>{formErrors.lastname}</p> */}
+                                                </div>
+
+                                                <div className="mb-3">
+                                                    <br />
+                                                    <div className="form-floating">
+                                                        <textarea
+                                                            name="address"
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="floatingInput"
+                                                            placeholder="name@example.com"
+                                                            value={user.area}
+                                                            readOnly
+                                                        />
+                                                        <label htmlFor="floatingInput">Area<span className="text-danger">*</span></label>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div className="col-md-6">
+                                                    <br />
+                                                    <label htmlFor="input4" className="form-label">
+                                                        Status <span className="text-danger">*</span>
+                                                    </label>
+                                                    <select
+                                                        id="input4"
+                                                        className="form-select"
+                                                        name="subscription"
+
+                                                    >
+                                                        {user.status === 1 &&
+                                                            <option>
+                                                                Active
+                                                            </option>
+                                                        }
+                                                        {user.status === 0 &&
+                                                            <option>
+                                                                Inactive
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                </div>
+
+
+
+
+
+
                                             </div>
-                                        </form>
+                                        </div>
+                                    </form>
                                     {/* ))
                                     } */}
                                 </div>

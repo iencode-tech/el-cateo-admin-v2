@@ -15,7 +15,8 @@ function Dashboard() {
     var [Udata, setUdata] = useState([]);
     // const token = JSON.parse(localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME));
     let getUsers = async () => {
-        await axios.get("http://localhost:7000/farms", { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+        await axios.get("http://localhost:7000/farms", 
+        { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
             const userData = response.data.data.dbData;
             setInfo(userData);
             if (response.data.data.data.length === 0) {
