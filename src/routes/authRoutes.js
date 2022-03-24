@@ -11,7 +11,7 @@ const Comingsoon = lazy(() => import("../pages/comingsoon/Comingsoon"));
 const Farms = lazy(() => import("../pages/managefarms/list/List"));
 const AddFarms = lazy(() => import("../pages/managefarms/create/Create"));
 const ViewFarm = lazy(() => import("../pages/managefarms/view/View"));
-
+const EditFarm = lazy(() => import("../pages/managefarms/edit/Edit"))
 
 //sectors
 const Sectors = lazy(() => import("../pages/managesectors/list/List"))
@@ -104,6 +104,10 @@ const routes = [
   {
     path: "/farms/:id/view",
     component: <ViewFarm/>
+  },
+  {
+    path: "/farms/:id/edit",
+    component: <EditFarm/>
   },
 
 //manage sectors

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom';
 
 import { useDispatch, useSelector } from "react-redux";
 import "./Create.scss";
@@ -17,21 +18,19 @@ import {
 
 import { defaultFolialDrencheId } from "../../../utils/appConstants";
 import axios from "axios";
+import { useStateManager } from "react-select";
 
 function FarmCreate() {
-    const initialValues = {
-        name: "",
-        location: "",
-        area: "",
-        status: "",
+    const [name, setName] = useState("");
+    const [nameError, setNameError] = useState("");
+    const [location, setLocation] = useState("");
+    const [locationError, setLocationError] = useState("");
 
-    };
+    const [area, setArea] = useState("");
+    const [areaError, setAreaError] = useState("");
 
-    const store = useSelector(selectAgriculturalPractice);
-    const dispatch = useDispatch();
-    const [formValue, setformValues] = useState(initialValues);
-    const [formError, setformError] = useState({});
-    const [isSubmit, setIsSubmit] = useState(false);
+    const [status, setStatus] = useState(1);
+    const history = useHistory();
 
     const pageName = "Add Farm";
     const breadCrumbs = [
@@ -49,85 +48,63 @@ function FarmCreate() {
         },
     ];
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setformValues({ ...formValue, [name]: value })
-    };
-    let getUsers = async () => {
-        const headers = {
-            'authorization': localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME)
-          }
-          
-        await  axios.post("http://localhost:7000/farm/store", {
-              headers: headers,
-             
-            })
-            .then((response) => {
-                console.log(",,,,",response.data)        
-                    })
-            .catch((error) => {
-              console.log(",,,,,,,,,,")
-            })
-    
+    // api calling for create user
+    const createUser = async () => {
+        await axios.post("http://localhost:7000/farm/store", {
+            "name": name,
+            "location": location,
+            "area": area,
+            "status": status
+        },
+        {
+            headers: {
+                'authorization': localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME),
+            }
+        }).then((response) => {
+            alert(response.data.status)
+            history.push("/farms")
 
-
+        }).catch((error) => {
+            console.log(",,,,,,,,,,")
+        })
     };
-    const handleSubmit = async (e) => {
+
+    // for submit
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setformError(validate(formValue));
-        setIsSubmit(true);
-        const { name, location, area, status } = formValue;
-        getUsers();
-        // const headers = {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME)
-        //       }
-        //  await axios.post("http://localhost:7000/farm/store", {
-        //     headers: headers,
-           
-        // }).then((response) => {
-            
-        // }).catch(error => {
-        //     console.log(error.response)
-        // });
+        let error = false;
 
-
-        
-
-        
-
-
-    }
-
-    const validate = (values) => {
-        const error = {};
-        // const regex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
-
-        if (!values.name) {
-            error.name = "Name is required!"
+        if(!name) {
+            setNameError("Required");
+            error = true;
+        } else {
+            setNameError("");
         }
 
+        if(!location) {
+            setLocationError("Required");
+            error = true;
+        }else{
+            setLocationError("");
 
-        if (!values.location) {
-            error.location = "Location is required!"
         }
 
-        if (!values.area) {
-            error.area = "Area is required!"
+        if(!area) {
+            setAreaError("Required");
+            error = true;
+        }else{
+            setAreaError("");
+
         }
 
-        if (!values.status) {
-            error.status = "Status is required!"
+        if(error == false) {
+            createUser();
         }
-
-        return error;
     }
 
     useEffect(() => {
-        if (Object.keys(formError).length === 0 && isSubmit) {
-            // handleSubmit();
-        }
-    }, [formError])
+    }, [])
+
 
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -154,7 +131,7 @@ function FarmCreate() {
                                         <div className={"row"}>&nbsp;</div>
                                     </div>
 
-                                    <form onClick={handleSubmit}
+                                    <form onSubmit={handleSubmit}
                                         method="POST"
                                         encType={`multipart/form-data`}>
                                         <div className="card-body">
@@ -165,15 +142,14 @@ function FarmCreate() {
                                                             name="name"
                                                             type="text"
                                                             className="form-control"
-                                                            id="floatingInput"
-                                                            placeholder="name@example.com"
-                                                            value={formValue.name}
-                                                            onChange={handleChange}
+                                                            id="name"
+                                                            placeholder="Enter name"
+                                                            value={name}
+                                                            onChange={(e) => setName(e.target.value)}
                                                         />
                                                         <label htmlFor="floatingInput">Name <span className="text-danger">*</span></label>
                                                     </div>
-                                                    <p style={{ color: 'red' }}>{formError.name}</p>
-
+                                                    <p style={{ color: 'red' }}>{nameError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
@@ -182,15 +158,14 @@ function FarmCreate() {
                                                             name="location"
                                                             type="text"
                                                             className="form-control"
-                                                            id="floatingInput"
-                                                            placeholder="name@example.com"
-                                                            value={formValue.location}
-                                                            onChange={handleChange}
-
+                                                            id="location"
+                                                            placeholder="Enter location"
+                                                            value={location}
+                                                            onChange={(e) => setLocation(e.target.value)}
                                                         />
                                                         <label htmlFor="floatingInput">Location <span className="text-danger">*</span></label>
                                                     </div>
-                                                    <p style={{ color: 'red' }}>{formError.location}</p>
+                                                    <p style={{ color: 'red' }}>{locationError}</p>
                                                 </div>
 
                                                 <div className="mb-3">
@@ -200,15 +175,14 @@ function FarmCreate() {
                                                             name="area"
                                                             type="text"
                                                             className="form-control"
-                                                            id="floatingInput"
-                                                            placeholder="name@example.com"
-                                                            value={formValue.area}
-                                                            onChange={handleChange}
-
+                                                            id="area"
+                                                            placeholder="Enter area"
+                                                            value={area}
+                                                            onChange={(e) => setArea(e.target.value)}
                                                         />
                                                         <label htmlFor="floatingInput">Area<span className="text-danger">*</span></label>
                                                     </div>
-                                                    <p style={{ color: 'red' }}>{formError.area}</p>
+                                                    <p style={{ color: 'red' }}>{areaError}</p>
 
                                                 </div>
 
@@ -221,14 +195,13 @@ function FarmCreate() {
                                                         id="input4"
                                                         className="form-select"
                                                         name="status"
-                                                        value={formValue.status}
-                                                        onChange={handleChange}
-
+                                                        value={status}
+                                                        onChange={(e) => setStatus(e.target.value)}
                                                     >
                                                         <option value={1}>Active</option>
-                                                        <option value={2}>Inactive</option>
+                                                        <option value={0}>Inactive</option>
                                                     </select>
-                                                    <p style={{ color: 'red' }}>{formError.status}</p>
+                                                    {/* <p style={{ color: 'red' }}>{formError.status}</p> */}
 
                                                 </div>
 
@@ -236,7 +209,7 @@ function FarmCreate() {
                                         </div>
 
                                         <div className="card-footer clearfix">
-                                            <button className="btn btn-sm btn-app float-end">
+                                            <button type="submit" className="btn btn-sm btn-app float-end">
                                                 Save
                                             </button>
                                         </div>

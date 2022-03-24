@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 import axios from "axios";
 
-function Dashboard() {
+function ManageFarm() {
     var [user, setInfo] = useState([]);
     var [page, setPage] = useState(0);
     var [Udata, setUdata] = useState([]);
@@ -19,11 +19,14 @@ function Dashboard() {
         { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
             const userData = response.data.data.dbData;
             setInfo(userData);
+            
             if (response.data.data.data.length === 0) {
 
                 getUsers();
                 alert('No data found.');
             }
+
+            
         }).catch(error => {
             console.log(error.response)
         });
@@ -155,7 +158,9 @@ function Dashboard() {
                                                                     </li>
                                                                     <li>
                                                                         <Link
-                                                                            className="dropdown-item" >
+                                                                            className="dropdown-item" 
+                                                                            to={`farms/${users.id}/edit`}
+                                                                            >
                                                                             Edit
                                                                         </Link>
                                                                     </li>
@@ -607,4 +612,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default ManageFarm;

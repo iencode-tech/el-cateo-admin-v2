@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTree, faUsers, faFileAlt, faHome } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
+import { utcToLocalTime } from "../../../utils/timeHelper";
 
 
 
 import axios from "axios";
 
-function Dashboard() {
-    var [user, setInfo] = useState([]);
+function ManageSectors() {
+    var [sector, setInfo] = useState([]);
     var [page, setPage] = useState(0);
     var [Udata, setUdata] = useState([]);
 
@@ -24,8 +25,27 @@ function Dashboard() {
             link: "",
         },
     ];
+
+    let getSectors = async () => {
+        await axios.get("http://localhost:7000/sectors",
+            { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+                console.log(response.data)
+                const sectorData = response.data.data.dbData;
+                setInfo(sectorData);
+                // if (response.data.data.data.length === 0) {
+
+                //     getUsers();
+                //     alert('No data found.');
+                // }
+            }).catch(error => {
+                console.log(error.response)
+            });
+
+
+    };
     useEffect(() => {
         document.title = `${process.env.REACT_APP_NAME}`;
+        getSectors();
     }, []);
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -37,8 +57,7 @@ function Dashboard() {
                                 <h1 className="m-0">Sectors
                                     <Link
                                         type="button"
-                                        className="btn btn-sm btn-app ms-3"
-                                        to={`farms/create`}>
+                                        className="btn btn-sm btn-app ms-3">
                                         Add New
                                     </Link>
 
@@ -89,7 +108,62 @@ function Dashboard() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+
+                                                {sector.map((sectors, index) => (
+                                                        <tr key={index}>
+                                                            <td >{index + 1}</td>
+                                                            <td >{sectors.name}</td>
+                                                            <td >{utcToLocalTime(sectors.createdAt)}</td>
+                                                            {sectors.status === 1 &&
+                                                                <td>
+                                                                    Active
+                                                                </td>
+                                                            }
+                                                            {sectors.status === 0 &&
+                                                                <td>
+                                                                    Inactive
+                                                                </td>
+                                                            }
+                                                            <td>
+                                                                <button
+                                                                    className="btn btn-outline-app dropdown-toggle"
+                                                                    type="button"
+                                                                    data-bs-toggle="dropdown"
+                                                                    aria-expanded="false" >
+                                                                    Action
+                                                                </button>
+                                                                <ul
+                                                                    className="dropdown-menu">
+                                                                    <li>
+                                                                        <Link
+                                                                            className="dropdown-item"
+                                                                        >
+                                                                            View
+                                                                        </Link>
+                                                                    </li>
+                                                                    <li>
+                                                                        <Link
+                                                                            className="dropdown-item" >
+                                                                            Edit
+                                                                        </Link>
+                                                                    </li>
+                                                                    <li>
+                                                                        <Link
+                                                                            className="dropdown-item"
+                                                                            >
+                                                                            Delete
+                                                                        </Link>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                    ))
+
+                                                    }
+                                                    {/* <tr>
                                                         <td>
                                                             1
                                                         </td>
@@ -145,181 +219,7 @@ function Dashboard() {
                                                                 </li>
                                                             </ul>
                                                         </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            2
-                                                        </td>
-                                                        <td>Sector2</td>
-                                                        <td>
-                                                            23/01/2022
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Inactive
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <button
-                                                                className="btn btn-outline-app dropdown-toggle"
-                                                                type="button"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false"
-                                                            >
-                                                                Action
-                                                            </button>
-                                                            <ul
-                                                                className="dropdown-menu"
-
-                                                            >
-                                                                <li>
-                                                                    <Link
-                                                                        className="dropdown-item"
-
-                                                                    >
-                                                                        View
-                                                                    </Link>
-                                                                </li>
-                                                                <li>
-                                                                    <Link
-                                                                        className="dropdown-item"
-
-                                                                    >
-                                                                        Edit
-                                                                    </Link>
-                                                                </li>
-                                                                <li>
-                                                                    <a
-                                                                        className="dropdown-item"
-                                                                        href="#"
-
-                                                                    >
-                                                                        Delete
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-
-
-                                                    <tr>
-                                                        <td>
-                                                            3
-                                                        </td>
-                                                        <td>Sector1</td>
-                                                        <td>
-                                                            15/01/2022
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Active
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <button
-                                                                className="btn btn-outline-app dropdown-toggle"
-                                                                type="button"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false"
-                                                            >
-                                                                Action
-                                                            </button>
-                                                            <ul
-                                                                className="dropdown-menu"
-
-                                                            >
-                                                                <li>
-                                                                    <Link
-                                                                        className="dropdown-item"
-
-                                                                    >
-                                                                        View
-                                                                    </Link>
-                                                                </li>
-                                                                <li>
-                                                                    <Link
-                                                                        className="dropdown-item"
-
-                                                                    >
-                                                                        Edit
-                                                                    </Link>
-                                                                </li>
-                                                                <li>
-                                                                    <a
-                                                                        className="dropdown-item"
-                                                                        href="#"
-
-                                                                    >
-                                                                        Delete
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            4
-                                                        </td>
-                                                        <td>Sector4</td>
-                                                        <td>
-                                                            22/01/2022
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Active
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <button
-                                                                className="btn btn-outline-app dropdown-toggle"
-                                                                type="button"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false"
-                                                            >
-                                                                Action
-                                                            </button>
-                                                            <ul
-                                                                className="dropdown-menu"
-
-                                                            >
-                                                                <li>
-                                                                    <Link
-                                                                        className="dropdown-item"
-
-                                                                    >
-                                                                        View
-                                                                    </Link>
-                                                                </li>
-                                                                <li>
-                                                                    <Link
-                                                                        className="dropdown-item"
-
-                                                                    >
-                                                                        Edit
-                                                                    </Link>
-                                                                </li>
-                                                                <li>
-                                                                    <a
-                                                                        className="dropdown-item"
-                                                                        href="#"
-
-                                                                    >
-                                                                        Delete
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
+                                                    </tr> */}
 
                                                 </tbody>
                                             </table>
@@ -338,4 +238,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default ManageSectors;
