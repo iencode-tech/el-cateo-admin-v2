@@ -58,7 +58,7 @@ function LeftSideBar() {
     {
       name: "Manage Zona",
       icon: faPaperPlane,
-      link: "/zones",
+      link: "/zonas",
       active: false,
     },
     

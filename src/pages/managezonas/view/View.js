@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "./View.scss";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
-import SectorViewComponent from "../../../components/pageSpecific/sectors/view/View";
+import ZoneViewComponent from "../../../components/pageSpecific/zones/view/View";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-
-
-function SectorView() {
+function ZonaView() {
     const params = useParams();
-    const pageName = "View sector";
-    const [sector, setInfo] = useState({
-        name: "",
-        status: "",
-        treeData: {},
-        treeIds: {}
+    const pageName = "View zona";
+    const [zona, setInfo] = useState({
+        latitude:"",
+        longitude:"",
+        name:"",
+        soils:{},
+        status:""
     });
 
     //Breadcrumbs declared
@@ -24,8 +22,8 @@ function SectorView() {
             link: "/dashboard",
         },
         {
-            name: "Sectors",
-            link: "/sectors",
+            name: "Zonas",
+            link: "/zonas",
         },
         {
             name: "View",
@@ -33,24 +31,21 @@ function SectorView() {
         },
     ];
 
-    let getUsers = async () => {
-        await axios.get(`http://localhost:7000/sector/${params.id}/read`,
+    let getZonas = async () => {
+        await axios.get(`http://localhost:7000/zone/${params.id}/read`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
-                const sectorData = response.data.data;
-                setInfo(sectorData);
+                const zonasData = response.data.data;
+                console.log(zonasData)
+                setInfo(zonasData);
 
             }).catch(error => {
                 console.log(error.response)
             });
-
-
     };
     useEffect(() => {
         document.title = `${process.env.REACT_APP_NAME}`;
-        getUsers();
+        getZonas();
     }, []);
-
-
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <div className="col-12 p-0 content-wrapper">
@@ -77,7 +72,7 @@ function SectorView() {
                                     </div>
 
                                     <div className="card-body">
-                                        <SectorViewComponent formData={sector} />
+                                        <ZoneViewComponent formData={zona} />
                                     </div>
 
                                     <div className="card-footer clearfix"></div>
@@ -89,6 +84,7 @@ function SectorView() {
             </div>
         </div>
     );
+
 }
 
-export default SectorView;
+export default ZonaView;

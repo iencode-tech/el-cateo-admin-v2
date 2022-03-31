@@ -8,7 +8,7 @@ import {
   faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import "./List.scss";
+// import "./List.scss";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import Table from "../../../components/common/table/Table";
 import {
@@ -125,7 +125,7 @@ function PersonList() {
                 <div className="card">
                   <div className="card-header border-transparent">
                     <div className={"row"}>
-                      <form
+                      {/* <form
                         name={`${pageName}ListFilter`}
                         onSubmit={_handleFormSubmit}
                       >
@@ -149,7 +149,7 @@ function PersonList() {
                             <FontAwesomeIcon icon={faRedo} />
                           </button>
                         </div>
-                      </form>
+                      </form> */}
                     </div>
                   </div>
 

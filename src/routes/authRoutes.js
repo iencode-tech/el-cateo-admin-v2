@@ -14,15 +14,23 @@ const ViewFarm = lazy(() => import("../pages/managefarms/view/View"));
 const EditFarm = lazy(() => import("../pages/managefarms/edit/Edit"))
 
 //sectors
-const Sectors = lazy(() => import("../pages/managesectors/list/List"))
+const Sectors = lazy(() => import("../pages/managesectors/list/List"));
+const ViewSector = lazy(() => import("../pages/managesectors/view/View"));
+const AddSector = lazy(() => import("../pages/managesectors/create/Create"));
 
+//zonas
+const Zonas = lazy(() => import("../pages/managezonas/list/List"));
+const Viewzonas = lazy(() => import("../pages/managezonas/view/View"));
+
+//manage persons
+const PersonList =lazy(() => import("../pages/managepersons/list/List"))
 //others
 const ChangePassword = lazy(() => import("../pages/profile/changePassword/ChangePassword"));
 const EditProfile = lazy(() => import("../pages/profile/editProfile/EditProfile"));
 
 const ArcGis = lazy(() => import("../pages/arcGis/ArcGis"));
 
-const PersonList = lazy(() => import("../pages/persons/list/List"));
+// const PersonList = lazy(() => import("../pages/persons/list/List"));
 const PersonCreate = lazy(() => import("../pages/persons/create/Create"));
 const PersonEdit = lazy(() => import("../pages/persons/edit/Edit"));
 const PersonView = lazy(() => import("../pages/persons/view/View"));
@@ -115,14 +123,24 @@ const routes = [
     path: "/sectors",
     component: <Sectors/>
   },
-
-
-//manage zones
   {
-    path: "/zones",
-    component: <Comingsoon/>
+    path: "/sectors/:id/view",
+    component: <ViewSector/>
   },
-
+  {
+    path: "/sectors/create",
+    component: <AddSector/>
+  },
+//manage zonas
+  {
+    path: "/zonas",
+    component: <Zonas/>
+  },
+  {
+    path: "/zonas/:id/view",
+    component: <Viewzonas/>
+  },
+  //others
   {
     path: "/change-password",
     component: <ChangePassword />,

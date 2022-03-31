@@ -46,11 +46,11 @@ function ZoneView({ formData, _handleOnChange, _addNewSoil, _removeSoil }) {
           <div className="card-header border-transparent">
             <h4 className="m-0">Soil</h4>
           </div>
-          <div className="card-body">
+          {/* <div className="card-body">
             {formData.soils.map((value, index) => (
               <SoilView key={index} formData={value} />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </>

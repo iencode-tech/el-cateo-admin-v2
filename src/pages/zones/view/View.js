@@ -14,7 +14,7 @@ function ZoneView() {
   const params = useParams();
   const store = useSelector(selectZone);
   const dispatch = useDispatch();
-  const pageName = "View zone";
+  const pageName = "View zona";
   const breadCrumbs = [
     {
       name: "Dashboard",
