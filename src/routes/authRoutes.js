@@ -22,8 +22,13 @@ const AddSector = lazy(() => import("../pages/managesectors/create/Create"));
 const Zonas = lazy(() => import("../pages/managezonas/list/List"));
 const Viewzonas = lazy(() => import("../pages/managezonas/view/View"));
 
+//rawmaterials
+const RawMaterials = lazy(() => import("../pages/managerawmaterails/list/List"));
+
 //manage persons
-const PersonList =lazy(() => import("../pages/managepersons/list/List"))
+const PersonList = lazy(() => import("../pages/managepersons/list/List"));
+const PersonView = lazy(() => import("../pages/managepersons/view/View"));
+const PersonCreate = lazy(() => import("../pages/managepersons/create/Create"))
 //others
 const ChangePassword = lazy(() => import("../pages/profile/changePassword/ChangePassword"));
 const EditProfile = lazy(() => import("../pages/profile/editProfile/EditProfile"));
@@ -31,34 +36,34 @@ const EditProfile = lazy(() => import("../pages/profile/editProfile/EditProfile"
 const ArcGis = lazy(() => import("../pages/arcGis/ArcGis"));
 
 // const PersonList = lazy(() => import("../pages/persons/list/List"));
-const PersonCreate = lazy(() => import("../pages/persons/create/Create"));
-const PersonEdit = lazy(() => import("../pages/persons/edit/Edit"));
-const PersonView = lazy(() => import("../pages/persons/view/View"));
+// const PersonCreate = lazy(() => import("../pages/persons/create/Create"));
+// const PersonEdit = lazy(() => import("../pages/persons/edit/Edit"));
+// const PersonView = lazy(() => import("../pages/persons/view/View"));
 
 const TreeList = lazy(() => import("../pages/trees/list/List"));
 const TreeCreate = lazy(() => import("../pages/trees/create/Create"));
 const TreeEdit = lazy(() => import("../pages/trees/edit/Edit"));
 const TreeView = lazy(() => import("../pages/trees/view/View"));
 
-const ZoneList = lazy(() => import("../pages/zones/list/List"));
-const ZoneCreate = lazy(() => import("../pages/zones/create/Create"));
-const ZoneEdit = lazy(() => import("../pages/zones/edit/Edit"));
-const ZoneView = lazy(() => import("../pages/zones/view/View"));
+// const ZoneList = lazy(() => import("../pages/zones/list/List"));
+// const ZoneCreate = lazy(() => import("../pages/zones/create/Create"));
+// const ZoneEdit = lazy(() => import("../pages/zones/edit/Edit"));
+// const ZoneView = lazy(() => import("../pages/zones/view/View"));
 
-const SectorList = lazy(() => import("../pages/sectors/list/List"));
-const SectorCreate = lazy(() => import("../pages/sectors/create/Create"));
-const SectorEdit = lazy(() => import("../pages/sectors/edit/Edit"));
-const SectorView = lazy(() => import("../pages/sectors/view/View"));
+// const SectorList = lazy(() => import("../pages/sectors/list/List"));
+// const SectorCreate = lazy(() => import("../pages/sectors/create/Create"));
+// const SectorEdit = lazy(() => import("../pages/sectors/edit/Edit"));
+// const SectorView = lazy(() => import("../pages/sectors/view/View"));
 
 const IllnessList = lazy(() => import("../pages/illnesses/list/List"));
 const IllnessCreate = lazy(() => import("../pages/illnesses/create/Create"));
 const IllnessEdit = lazy(() => import("../pages/illnesses/edit/Edit"));
 const IllnessView = lazy(() => import("../pages/illnesses/view/View"));
 
-const RawMaterialList = lazy(() => import("../pages/rawMaterials/list/List"));
-const RawMaterialCreate = lazy(() => import("../pages/rawMaterials/create/Create"));
-const RawMaterialEdit = lazy(() => import("../pages/rawMaterials/edit/Edit"));
-const RawMaterialView = lazy(() => import("../pages/rawMaterials/view/View"));
+// const RawMaterialList = lazy(() => import("../pages/rawMaterials/list/List"));
+// const RawMaterialCreate = lazy(() => import("../pages/rawMaterials/create/Create"));
+// const RawMaterialEdit = lazy(() => import("../pages/rawMaterials/edit/Edit"));
+// const RawMaterialView = lazy(() => import("../pages/rawMaterials/view/View"));
 
 const AgriculturalPracticeList = lazy(() => import("../pages/agriculturalPractices/list/List"));
 const AgriculturalPracticeCreate = lazy(() => import("../pages/agriculturalPractices/create/Create"));
@@ -100,46 +105,71 @@ const routes = [
     component: <Comingsoon />,
   },
 
-//manage farms
+  //manage persons
+  {
+    path: "/persons",
+    component: <PersonList/>
+  },
+  {
+    path: "/person/:id/view",
+    component: <PersonView/>
+  },
+  {
+    path: "/person/create",
+    component: <PersonCreate/>
+  },
+
+  //manage farms
   {
     path: "/farms",
     component: <Farms />,
   },
   {
     path: "/farms/create",
-    component: <AddFarms/>
+    component: <AddFarms />
   },
   {
     path: "/farms/:id/view",
-    component: <ViewFarm/>
+    component: <ViewFarm />
   },
   {
     path: "/farms/:id/edit",
-    component: <EditFarm/>
+    component: <EditFarm />
+  },
+  {
+    path: "/farms/manage",
+    component: <Comingsoon />
   },
 
-//manage sectors
+  //manage sectors
   {
     path: "/sectors",
-    component: <Sectors/>
+    component: <Sectors />
   },
   {
     path: "/sectors/:id/view",
-    component: <ViewSector/>
+    component: <ViewSector />
   },
   {
     path: "/sectors/create",
-    component: <AddSector/>
+    component: <AddSector />
   },
-//manage zonas
+  //manage zonas
   {
     path: "/zonas",
-    component: <Zonas/>
+    component: <Zonas />
   },
   {
     path: "/zonas/:id/view",
-    component: <Viewzonas/>
+    component: <Viewzonas />
   },
+
+  //rawmaterials
+  {
+    path: "/raw-materials",
+    component: <RawMaterials />,
+  },
+
   //others
   {
     path: "/change-password",
@@ -151,22 +181,22 @@ const routes = [
   },
 
   //manage persons
-  {
-    path: "/persons",
-    component: <PersonList />,
-  },
-  {
-    path: "/person/create",
-    component: <PersonCreate />,
-  },
-  {
-    path: "/person/:id/edit",
-    component: <PersonEdit />,
-  },
-  {
-    path: "/person/:id/view",
-    component: <PersonView />,
-  },
+  // {
+  //   path: "/persons",
+  //   component: <PersonList />,
+  // },
+  // {
+  //   path: "/person/create",
+  //   component: <PersonCreate />,
+  // },
+  // {
+  //   path: "/person/:id/edit",
+  //   component: <PersonEdit />,
+  // },
+  // {
+  //   path: "/person/:id/view",
+  //   component: <PersonView />,
+  // },
   {
     path: "/trees",
     component: <TreeList />,
@@ -231,22 +261,22 @@ const routes = [
     path: "/illness/:id/view",
     component: <IllnessView />,
   },
-  {
-    path: "/raw-materials",
-    component: <RawMaterialList />,
-  },
-  {
-    path: "/raw-material/create",
-    component: <RawMaterialCreate />,
-  },
-  {
-    path: "/raw-material/:id/edit",
-    component: <RawMaterialEdit />,
-  },
-  {
-    path: "/raw-material/:id/view",
-    component: <RawMaterialView />,
-  },
+  // {
+  //   path: "/raw-materials",
+  //   component: <RawMaterialList />,
+  // },
+  // {
+  //   path: "/raw-material/create",
+  //   component: <RawMaterialCreate />,
+  // },
+  // {
+  //   path: "/raw-material/:id/edit",
+  //   component: <RawMaterialEdit />,
+  // },
+  // {
+  //   path: "/raw-material/:id/view",
+  //   component: <RawMaterialView />,
+  // },
   {
     path: "/agricultural-practices",
     component: <AgriculturalPracticeList />,

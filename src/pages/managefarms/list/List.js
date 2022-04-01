@@ -167,8 +167,8 @@ function ManageFarm() {
                                                                     <li>
                                                                         <Link
                                                                             className="dropdown-item"
-                                                                            onClick={(e) => removeById(e, users.id)}>
-                                                                            Delete
+                                                                            to={'farms/manage'}>
+                                                                            Manage
                                                                         </Link>
                                                                     </li>
                                                                 </ul>

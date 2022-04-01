@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect,useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -8,26 +7,17 @@ import {
   faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-// import "./List.scss";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import Table from "../../../components/common/table/Table";
-import {
-  initFormData,
-  deleteData,
-  fetchList,
-  handleListFormDataChange,
-  selectPerson,
-} from "../../../store/redux/Page/Person";
 import { Link } from "react-router-dom";
 import { utcToLocalTime } from "../../../utils/timeHelper";
 import { personRoles, statuses } from "../../../utils/appConstants";
 import Pagination from "../../../components/common/pagination/Pagination";
+import axios from "axios";
 
 function PersonList() {
-  const store = useSelector(selectPerson);
-  const dispatch = useDispatch();
+  var [person, setInfo] = useState([]);
   const pageName = "Persons";
-  const routeStart = "/person";
   const breadCrumbs = [
     {
       name: "Dashboard",
@@ -38,7 +28,6 @@ function PersonList() {
       link: "",
     },
   ];
-
   const tableHeads = [
     "Name",
     "Email",
@@ -49,51 +38,35 @@ function PersonList() {
     "",
   ];
 
-  const _handleOnChange = (e) => {
-    dispatch(
-      handleListFormDataChange({
-        key: e.currentTarget.name,
-        value: e.currentTarget.value,
-      })
-    );
+  let getPerson = async () => {
+    await axios.get("http://localhost:7000/persons",
+      { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+        const personData = response.data.data.dbData;
+        setInfo(personData);
+      }).catch(error => {
+        console.log(error.response)
+      });
+
+
   };
 
-  const _handlePageChange = (page = 1) => {
-    dispatch(
-      handleListFormDataChange({
-        key: "page",
-        value: page,
-      })
-    );
-    dispatch(fetchList({ ...store.listFormData, page }));
-  };
-
-  const _handleFormSubmit = (e) => {
+  const removeById = async (e, id) => {
     e.preventDefault();
-    dispatch(fetchList(store.listFormData));
-  };
+    await axios.delete(`http://localhost:7000/person/${id}/delete`,
+        { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } })
+        .then(res => {
+            getPerson();
+        })
+        .catch(error => {
+            console.log(error.response)
+        });
 
-  const _deleteListData = (e, id) => {
-    e.preventDefault();
-    dispatch(deleteData({ id }));
-    dispatch(fetchList(store.listFormData));
-  };
-
-  const _refreshListing = (e) => {
-    const form = e.currentTarget.closest("form");
-    const inputs = form.getElementsByTagName("input");
-    for (let i = 0; i < inputs.length; i++) {
-      dispatch(handleListFormDataChange({ key: inputs[i].name, value: "" }));
-    }
-    _handleFormSubmit(e);
-  };
+}
 
   useEffect(() => {
-    document.title = `${process.env.REACT_APP_NAME} | ${pageName}`;
-    dispatch(initFormData());
-    dispatch(fetchList(store.listFormData));
-  }, []);
-
+    document.title = `${process.env.REACT_APP_NAME}`;
+    getPerson();
+}, []);
   return (
     <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <div className="col-12 p-0 content-wrapper">
@@ -106,7 +79,7 @@ function PersonList() {
                   <Link
                     type="button"
                     className="btn btn-sm btn-app ms-3"
-                  >
+                    to={'/person/create'}>
                     Add New
                   </Link>
                 </h1>
@@ -125,37 +98,13 @@ function PersonList() {
                 <div className="card">
                   <div className="card-header border-transparent">
                     <div className={"row"}>
-                      {/* <form
-                        name={`${pageName}ListFilter`}
-                        onSubmit={_handleFormSubmit}
-                      >
-                        <div className="input-group mt-3 mb-3">
-                          <input
-                            name="keyword"
-                            type="text"
-                            className="form-control"
-                            value={store.listFormData.keyword}
-                            placeholder="Enter keyword to search"
-                            onChange={_handleOnChange}
-                          />
-                          <button className="btn btn-outline-app" type="submit">
-                            <FontAwesomeIcon icon={faSearch} />
-                          </button>
-                          <button
-                            className="btn btn-outline-app"
-                            type="reset"
-                            onClick={_refreshListing}
-                          >
-                            <FontAwesomeIcon icon={faRedo} />
-                          </button>
-                        </div>
-                      </form> */}
+
                     </div>
                   </div>
 
                   <div className="card-body p-0">
                     <Table
-                      data={store.list.map((listData, index) => ({
+                      data={person.map((listData, index) => ({
                         name: `${listData.firstName} ${listData.lastName}`,
                         email: listData.email,
                         phone: listData.phone,
@@ -180,7 +129,7 @@ function PersonList() {
                               <li>
                                 <Link
                                   className="dropdown-item"
-                                  to={`${routeStart}/${listData.id}/view`}
+                                  to={`/person/${listData.id}/view`}
                                 >
                                   <FontAwesomeIcon icon={faEye} /> View
                                 </Link>
@@ -196,9 +145,7 @@ function PersonList() {
                                 <a
                                   className="dropdown-item"
                                   href="#"
-                                  onClick={(e) =>
-                                    _deleteListData(e, listData.id)
-                                  }
+                                  onClick={(e) => removeById(e, listData.id)}
                                 >
                                   <FontAwesomeIcon icon={faTrash} /> Delete
                                 </a>
@@ -208,14 +155,6 @@ function PersonList() {
                         ),
                       }))}
                       header={tableHeads}
-                    />
-                  </div>
-
-                  <div className="card-footer clearfix">
-                    <Pagination
-                      totalCount={parseInt(store.listCount)}
-                      currentPage={parseInt(store.listFormData.page)}
-                      onPageChange={_handlePageChange}
                     />
                   </div>
                 </div>

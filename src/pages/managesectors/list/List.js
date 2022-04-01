@@ -10,14 +10,10 @@ import { utcToLocalTime } from "../../../utils/timeHelper";
 import Table from "../../../components/common/table/Table";
 //import statuses
 import { statuses } from "../../../utils/appConstants";
-
-
 import axios from "axios";
 
 function ManageSectors() {
     var [sector, setInfo] = useState([]);
-    var [page, setPage] = useState(0);
-    var [Udata, setUdata] = useState([]);
 
     const breadCrumbs = [
         {

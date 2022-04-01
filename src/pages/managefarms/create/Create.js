@@ -1,24 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-
-import { useDispatch, useSelector } from "react-redux";
 import "./Create.scss";
-import { statuses, subscription } from "../../../utils/appConstants";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
-import {
-    addNewRawMaterial,
-    fetchAllRawMaterials,
-    handleFormDataChange,
-    handleFormValidation,
-    initFormData,
-    removeRawMaterial,
-    selectAgriculturalPractice,
-    storeData,
-} from "../../../store/redux/Page/AgriculturalPractice";
-
-import { defaultFolialDrencheId } from "../../../utils/appConstants";
 import axios from "axios";
-import { useStateManager } from "react-select";
 
 function FarmCreate() {
     const [name, setName] = useState("");
