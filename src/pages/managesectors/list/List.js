@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTree, faUsers, faFileAlt, faHome, faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit, faTrash, faRedo } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
 import { utcToLocalTime } from "../../../utils/timeHelper";
@@ -13,6 +12,9 @@ import { statuses } from "../../../utils/appConstants";
 import axios from "axios";
 
 function ManageSectors() {
+    const pageName = "Sector";
+
+    var [search, setSearch] = useState("");
     var [sector, setInfo] = useState([]);
 
     const breadCrumbs = [
@@ -29,8 +31,8 @@ function ManageSectors() {
     const tableHeads = ["Sector Name", "Added Date", "Status", ""];
 
 
-    let getSectors = async () => {
-        await axios.get("http://localhost:7000/sectors",
+    let getSectors = async (search) => {
+        await axios.get(`http://localhost:7000/sectors?keyword=${search}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const sectorData = response.data.data.dbData;
                 setInfo(sectorData);
@@ -55,8 +57,8 @@ function ManageSectors() {
     }
     useEffect(() => {
         document.title = `${process.env.REACT_APP_NAME}`;
-        getSectors();
-    }, []);
+        getSectors(search);
+    }, [search]);
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <div className="col-12 p-0 content-wrapper">
@@ -87,23 +89,27 @@ function ManageSectors() {
                             <div className="col-md-12">
                                 <div className="card">
                                     <div className="card-header border-transparent">
+                                    <form
+                                            name={`${pageName}ListFilter`}>
 
-                                        <div className="card-tools">
-                                            <button
-                                                type="button"
-                                                className="btn btn-tool"
-                                                data-card-widget="collapse"
-                                            >
-                                                <i className="fas fa-minus"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn btn-tool"
-                                                data-card-widget="remove"
-                                            >
-                                                <i className="fas fa-times"></i>
-                                            </button>
-                                        </div>
+                                            <div className="input-group mt-3 mb-3">
+                                                <input
+                                                    name="keyword"
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Search Sectors"
+                                                    value={search}
+                                                    onChange={(e) => setSearch(e.target.value)}
+
+                                                />
+                                                <button
+                                                    className="btn btn-outline-app"
+                                                    type="reset"
+                                                >
+                                                    <FontAwesomeIcon icon={faRedo} />
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
 
                                     <div className="card-body p-0">

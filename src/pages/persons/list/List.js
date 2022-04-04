@@ -127,8 +127,7 @@ function PersonList() {
                     <div className={"row"}>
                       <form
                         name={`${pageName}ListFilter`}
-                        onSubmit={_handleFormSubmit}
-                      >
+                        onSubmit={_handleFormSubmit}>
                         <div className="input-group mt-3 mb-3">
                           <input
                             name="keyword"

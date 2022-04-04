@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTree, faUsers, faFileAlt, faHome } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
-
-
-
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faEdit,
+    faEye,
+    faRedo,
+    faSearch,
+    faTrash,
+  } from "@fortawesome/free-solid-svg-icons";
 
 function ManageFarm() {
+    const pageName = "Farms";
+
     var [user, setInfo] = useState([]);
     var [page, setPage] = useState(0);
-    var [Udata, setUdata] = useState([]);
-    // const token = JSON.parse(localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME));
-    let getUsers = async () => {
-        await axios.get("http://localhost:7000/farms", 
-        { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
-            const userData = response.data.data.dbData;
-            setInfo(userData);
-            
-            if (response.data.data.data.length === 0) {
-
-                getUsers();
-                alert('No data found.');
-            }
-
-            
-        }).catch(error => {
-            console.log(error.response)
-        });
-
-
+    var [search, setSearch] = useState("");
+    let getUsers = async (search) => {
+        await axios.get(`http://localhost:7000/farms?keyword=${search}`,
+            { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+                const userData = response.data.data.dbData;
+                setInfo(userData);
+                if (response.data.data.data.length === 0) {
+                    getUsers();
+                    alert('No data found.');
+                }
+            }).catch(error => {
+                console.log(error.response)
+            });
     };
 
     const removeById = async (e, id) => {
@@ -57,8 +54,8 @@ function ManageFarm() {
     ];
     useEffect(() => {
         document.title = `${process.env.REACT_APP_NAME}`;
-        getUsers();
-    }, []);
+        getUsers(search);
+    }, [search]);
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <div className="col-12 p-0 content-wrapper">
@@ -90,22 +87,27 @@ function ManageFarm() {
                                 <div className="card">
                                     <div className="card-header border-transparent">
 
-                                        <div className="card-tools">
-                                            <button
-                                                type="button"
-                                                className="btn btn-tool"
-                                                data-card-widget="collapse"
-                                            >
-                                                <i className="fas fa-minus"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn btn-tool"
-                                                data-card-widget="remove"
-                                            >
-                                                <i className="fas fa-times"></i>
-                                            </button>
-                                        </div>
+                                        <form
+                                            name={`${pageName}ListFilter`}>
+
+                                            <div className="input-group mt-3 mb-3">
+                                                <input
+                                                    name="keyword"
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Search Farms"
+                                                    value={search}
+                                                    onChange={(e) => setSearch(e.target.value)}
+
+                                                />
+                                                <button
+                                                    className="btn btn-outline-app"
+                                                    type="reset"
+                                                >
+                                                    <FontAwesomeIcon icon={faRedo} />
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
 
                                     <div className="card-body p-0">
@@ -158,9 +160,9 @@ function ManageFarm() {
                                                                     </li>
                                                                     <li>
                                                                         <Link
-                                                                            className="dropdown-item" 
+                                                                            className="dropdown-item"
                                                                             to={`farms/${users.id}/edit`}
-                                                                            >
+                                                                        >
                                                                             Edit
                                                                         </Link>
                                                                     </li>
@@ -182,419 +184,7 @@ function ManageFarm() {
                                                     }
 
 
-                                                    {/* <tr>
-                                                        <td>
-                                                            1
-                                                        </td>
-                                                        <td>Location1</td>
-                                                        <td>
-                                                            Area 1
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Inactive
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="dropdown">
-                                                                <button
-                                                                    className="btn btn-outline-app dropdown-toggle"
-                                                                    type="button"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Action
-                                                                </button>
-                                                                <ul
-                                                                    className="dropdown-menu"
-
-                                                                >
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            View
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a
-                                                                            className="dropdown-item"
-                                                                            href="#"
-
-                                                                        >
-                                                                            Delete
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            2
-                                                        </td>
-                                                        <td>Location1</td>
-                                                        <td>
-                                                            Area 1
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Active
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="dropdown">
-                                                                <button
-                                                                    className="btn btn-outline-app dropdown-toggle"
-                                                                    type="button"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Action
-                                                                </button>
-                                                                <ul
-                                                                    className="dropdown-menu"
-
-                                                                >
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            View
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a
-                                                                            className="dropdown-item"
-                                                                            href="#"
-
-                                                                        >
-                                                                            Delete
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            3
-                                                        </td>
-                                                        <td>Location1</td>
-                                                        <td>
-                                                            Area 1
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Active
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="dropdown">
-                                                                <button
-                                                                    className="btn btn-outline-app dropdown-toggle"
-                                                                    type="button"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Action
-                                                                </button>
-                                                                <ul
-                                                                    className="dropdown-menu"
-
-                                                                >
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            View
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a
-                                                                            className="dropdown-item"
-                                                                            href="#"
-
-                                                                        >
-                                                                            Delete
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            4
-                                                        </td>
-                                                        <td>Location1</td>
-                                                        <td>
-                                                            Area 1
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Active
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="dropdown">
-                                                                <button
-                                                                    className="btn btn-outline-app dropdown-toggle"
-                                                                    type="button"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Action
-                                                                </button>
-                                                                <ul
-                                                                    className="dropdown-menu"
-
-                                                                >
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            View
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a
-                                                                            className="dropdown-item"
-                                                                            href="#"
-
-                                                                        >
-                                                                            Delete
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            5
-                                                        </td>
-                                                        <td>Location1</td>
-                                                        <td>
-                                                            Area 1
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                ctive
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="dropdown">
-                                                                <button
-                                                                    className="btn btn-outline-app dropdown-toggle"
-                                                                    type="button"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Action
-                                                                </button>
-                                                                <ul
-                                                                    className="dropdown-menu"
-
-                                                                >
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            View
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a
-                                                                            className="dropdown-item"
-                                                                            href="#"
-
-                                                                        >
-                                                                            Delete
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            6
-                                                        </td>
-                                                        <td>Location1</td>
-                                                        <td>
-                                                            Area 1
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Inactive
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="dropdown">
-                                                                <button
-                                                                    className="btn btn-outline-app dropdown-toggle"
-                                                                    type="button"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Action
-                                                                </button>
-                                                                <ul
-                                                                    className="dropdown-menu"
-
-                                                                >
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            View
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a
-                                                                            className="dropdown-item"
-                                                                            href="#"
-
-                                                                        >
-                                                                            Delete
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            7
-                                                        </td>
-                                                        <td>Location1</td>
-                                                        <td>
-                                                            Area 1
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                className="sparkbar"
-                                                                data-color="#00a65a"
-                                                                data-height="20">
-                                                                Inactive
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="dropdown">
-                                                                <button
-                                                                    className="btn btn-outline-app dropdown-toggle"
-                                                                    type="button"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Action
-                                                                </button>
-                                                                <ul
-                                                                    className="dropdown-menu"
-
-                                                                >
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            View
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link
-                                                                            className="dropdown-item"
-
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a
-                                                                            className="dropdown-item"
-                                                                            href="#"
-
-                                                                        >
-                                                                            Delete
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr> */}
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>

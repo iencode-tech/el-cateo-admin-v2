@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit, faTrash, faRedo} from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
 import { utcToLocalTime } from "../../../utils/timeHelper";
@@ -16,6 +16,7 @@ import axios from "axios";
 
 function ZoneList() {
     var [zonas, setInfo] = useState([]);
+    const [searchKey, setSearchKey] = useState("");
     const pageName = "Zonas";
     const breadCrumbs = [
         {
@@ -37,8 +38,8 @@ function ZoneList() {
         "",
     ];
 
-    let getZonas = async () => {
-        await axios.get("http://localhost:7000/zones",
+    let getZonas = async (searchKey) => {
+        await axios.get(`http://localhost:7000/zones?keyword=${searchKey}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const zonaData = response.data.data.dbData;
                 setInfo(zonaData);
@@ -62,8 +63,8 @@ function ZoneList() {
 
     useEffect(() => {
         document.title = `${process.env.REACT_APP_NAME}`;
-        getZonas();
-    }, []);
+        getZonas(searchKey);
+    }, [searchKey]);
 
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -96,7 +97,27 @@ function ZoneList() {
                                 <div className="card">
                                     <div className="card-header border-transparent">
                                         <div className={"row"}>
+                                            <form
+                                                name={`${pageName}ListFilter`}>
 
+                                                <div className="input-group mt-3 mb-3">
+                                                    <input
+                                                        name="keyword"
+                                                        type="text"
+                                                        className="form-control"
+                                                        placeholder="Search Person"
+                                                        value={searchKey}
+                                                        onChange={(e) => setSearchKey(e.target.value)}
+
+                                                    />
+                                                    <button
+                                                        className="btn btn-outline-app"
+                                                        type="reset"
+                                                    >
+                                                        <FontAwesomeIcon icon={faRedo} />
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
 

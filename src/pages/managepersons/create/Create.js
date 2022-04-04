@@ -56,9 +56,10 @@ function PersonCreate() {
             "email": email,
             "phone": phone,
             "password": password,
+            "confirmPassword":conpassword,
             "address": address,
             "role": role,
-            "status": "1"
+            "status": status
         },
             {
                 headers: {
@@ -286,7 +287,7 @@ function PersonCreate() {
                                                         <label>Role<span className="text-danger">*</span></label>
 
                                                         <select
-                                                            id="input4"
+                                                            id="role"
                                                             className="form-select"
                                                             name="role"
                                                             value={role}
@@ -302,7 +303,7 @@ function PersonCreate() {
                                                         <label>Status<span className="text-danger">*</span></label>
 
                                                         <select
-                                                            id="input4"
+                                                            id="status"
                                                             className="form-select"
                                                             name="status"
                                                             value={status}

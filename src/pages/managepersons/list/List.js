@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -17,6 +17,9 @@ import axios from "axios";
 
 function PersonList() {
   var [person, setInfo] = useState([]);
+
+  const [searchKey, setSearchKey] = useState("");
+
   const pageName = "Persons";
   const breadCrumbs = [
     {
@@ -38,8 +41,8 @@ function PersonList() {
     "",
   ];
 
-  let getPerson = async () => {
-    await axios.get("http://localhost:7000/persons",
+  let getPerson = async (searchKey) => {
+    await axios.get(`http://localhost:7000/persons?keyword=${searchKey}`,
       { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
         const personData = response.data.data.dbData;
         setInfo(personData);
@@ -49,24 +52,27 @@ function PersonList() {
 
 
   };
+  // const handleSubmit = (e) =>{
+  //   e.preventDefault();
+  // }
 
   const removeById = async (e, id) => {
     e.preventDefault();
     await axios.delete(`http://localhost:7000/person/${id}/delete`,
-        { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } })
-        .then(res => {
-            getPerson();
-        })
-        .catch(error => {
-            console.log(error.response)
-        });
+      { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } })
+      .then(res => {
+        getPerson();
+      })
+      .catch(error => {
+        console.log(error.response)
+      });
 
-}
+  }
 
   useEffect(() => {
     document.title = `${process.env.REACT_APP_NAME}`;
-    getPerson();
-}, []);
+    getPerson(searchKey);
+  }, [searchKey]);
   return (
     <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <div className="col-12 p-0 content-wrapper">
@@ -98,7 +104,27 @@ function PersonList() {
                 <div className="card">
                   <div className="card-header border-transparent">
                     <div className={"row"}>
+                      <form
+                        name={`${pageName}ListFilter`}> 
 
+                        <div className="input-group mt-3 mb-3">
+                          <input
+                            name="keyword"
+                            type="text"
+                            className="form-control"
+                            placeholder="Search Person"
+                            value={searchKey}
+                            onChange={(e) => setSearchKey(e.target.value)}
+
+                          />
+                          <button
+                            className="btn btn-outline-app"
+                            type="reset"
+                          >
+                            <FontAwesomeIcon icon={faRedo} />
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </div>
 
@@ -137,6 +163,7 @@ function PersonList() {
                               <li>
                                 <Link
                                   className="dropdown-item"
+                                  to={`/person/${listData.id}/edit`}
                                 >
                                   <FontAwesomeIcon icon={faEdit} /> Edit
                                 </Link>

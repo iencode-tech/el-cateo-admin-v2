@@ -28,7 +28,8 @@ const RawMaterials = lazy(() => import("../pages/managerawmaterails/list/List"))
 //manage persons
 const PersonList = lazy(() => import("../pages/managepersons/list/List"));
 const PersonView = lazy(() => import("../pages/managepersons/view/View"));
-const PersonCreate = lazy(() => import("../pages/managepersons/create/Create"))
+const PersonCreate = lazy(() => import("../pages/managepersons/create/Create"));
+const PersonEdit = lazy(() => import("../pages/managepersons/edit/Edit"));
 //others
 const ChangePassword = lazy(() => import("../pages/profile/changePassword/ChangePassword"));
 const EditProfile = lazy(() => import("../pages/profile/editProfile/EditProfile"));
@@ -117,6 +118,10 @@ const routes = [
   {
     path: "/person/create",
     component: <PersonCreate/>
+  },
+  {
+    path: "/person/:id/edit",
+    component: <PersonEdit/>
   },
 
   //manage farms
