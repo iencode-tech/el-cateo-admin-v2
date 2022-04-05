@@ -66,7 +66,7 @@ function FarmEdit() {
                 alert(response.data.message)
                 history.push("/farms")
             }).catch((error) => {
-                console.log(",,,,,,,,,,")
+                alert(error.message)
             })
     };
 

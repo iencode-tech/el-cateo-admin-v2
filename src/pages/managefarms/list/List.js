@@ -9,20 +9,27 @@ import {
     faRedo,
     faSearch,
     faTrash,
-  } from "@fortawesome/free-solid-svg-icons";
+} from "@fortawesome/free-solid-svg-icons";
+import ReactPaginate from 'react-paginate';
+
 
 function ManageFarm() {
     const pageName = "Farms";
 
     var [user, setInfo] = useState([]);
-    var [page, setPage] = useState(0);
+
+    const [page, setPage] = useState(1);
+    const [tCount, setTCount] = useState(0);
+
     var [search, setSearch] = useState("");
-    let getUsers = async (search) => {
-        await axios.get(`http://localhost:7000/farms?keyword=${search}`,
+    
+    let getUsers = async (search,page) => {
+        await axios.get(`http://localhost:7000/farms?keyword=${search}&page=${page}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const userData = response.data.data.dbData;
                 setInfo(userData);
-                if (response.data.data.data.length === 0) {
+                setTCount(response.data.data.dbCount)
+                if (response.data.data.dbData === 0) {
                     getUsers();
                     alert('No data found.');
                 }
@@ -52,10 +59,15 @@ function ManageFarm() {
             link: "",
         },
     ];
+
+    const handlePageClick = (e) =>{
+        // e.preventDefault();
+        setPage(e.selected + 1);
+      }
     useEffect(() => {
         document.title = `${process.env.REACT_APP_NAME}`;
-        getUsers(search);
-    }, [search]);
+        getUsers(search,page);
+    }, [search,page]);
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <div className="col-12 p-0 content-wrapper">
@@ -184,9 +196,28 @@ function ManageFarm() {
                                                     }
 
 
-                                                    
+
                                                 </tbody>
                                             </table>
+                                        </div>
+                                        <div className="card-footer clearfix">
+                                            <ReactPaginate
+                                                breakLabel="..."
+                                                nextLabel=" >>"
+                                                onPageChange={handlePageClick}
+                                                // pageRangeDisplayed={10}
+                                                pageCount={tCount / 10}
+                                                previousLabel="<<"
+                                                renderOnZeroPageCount={null}
+                                                containerClassName={"pagination justify-content-center"}
+                                                pageClassName={"page-item"}
+                                                pageLinkClassName={"page-link"}
+                                                previousClassName={"page-item"}
+                                                previousLinkClassName={"page-link"}
+                                                nextClassName={"page-item"}
+                                                nextLinkClassName={"page-link"}
+                                                activeClassName={"active"}
+                                            />
                                         </div>
                                     </div>
 

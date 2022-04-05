@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEdit, faTrash, faRedo} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit, faTrash, faRedo } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
 import { utcToLocalTime } from "../../../utils/timeHelper";
+import ReactPaginate from 'react-paginate';
 
 //import table
 import Table from "../../../components/common/table/Table";
@@ -17,6 +18,10 @@ import axios from "axios";
 function ZoneList() {
     var [zonas, setInfo] = useState([]);
     const [searchKey, setSearchKey] = useState("");
+
+    const [page, setPage] = useState(1);
+    const [tCount, setTCount] = useState(0);
+
     const pageName = "Zonas";
     const breadCrumbs = [
         {
@@ -38,11 +43,12 @@ function ZoneList() {
         "",
     ];
 
-    let getZonas = async (searchKey) => {
-        await axios.get(`http://localhost:7000/zones?keyword=${searchKey}`,
+    let getZonas = async (searchKey, page) => {
+        await axios.get(`http://localhost:7000/zones?keyword=${searchKey}&page=${page}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const zonaData = response.data.data.dbData;
                 setInfo(zonaData);
+                setTCount(response.data.data.dbCount);
             }).catch(error => {
                 console.log(error.response)
             });
@@ -61,10 +67,16 @@ function ZoneList() {
 
     }
 
+    const handlePageClick = (e) => {
+        setPage(e.selected + 1);
+    }
+
     useEffect(() => {
         document.title = `${process.env.REACT_APP_NAME}`;
-        getZonas(searchKey);
-    }, [searchKey]);
+        getZonas(searchKey, page);
+    }, [searchKey, page]);
+
+
 
     return (
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -174,6 +186,25 @@ function ZoneList() {
                                                 ),
                                             }))}
                                             header={tableHeads}
+                                        />
+                                    </div>
+                                    <div className="card-footer clearfix">
+                                        <ReactPaginate
+                                            breakLabel="..."
+                                            nextLabel=" >>"
+                                            onPageChange={handlePageClick}
+                                            // pageRangeDisplayed={10}
+                                            pageCount={tCount / 10}
+                                            previousLabel="<<"
+                                            renderOnZeroPageCount={null}
+                                            containerClassName={"pagination justify-content-center"}
+                                            pageClassName={"page-item"}
+                                            pageLinkClassName={"page-link"}
+                                            previousClassName={"page-item"}
+                                            previousLinkClassName={"page-link"}
+                                            nextClassName={"page-item"}
+                                            nextLinkClassName={"page-link"}
+                                            activeClassName={"active"}
                                         />
                                     </div>
                                 </div>

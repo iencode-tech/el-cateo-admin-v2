@@ -4,7 +4,6 @@ import {
   faEdit,
   faEye,
   faRedo,
-  faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
@@ -13,12 +12,19 @@ import { Link } from "react-router-dom";
 import { utcToLocalTime } from "../../../utils/timeHelper";
 import { personRoles, statuses } from "../../../utils/appConstants";
 import Pagination from "../../../components/common/pagination/Pagination";
+import ReactPaginate from 'react-paginate';
+import { useHistory } from 'react-router-dom';
+
 import axios from "axios";
 
 function PersonList() {
-  var [person, setInfo] = useState([]);
+  const history = useHistory();
 
+  var [person, setInfo] = useState([]);
   const [searchKey, setSearchKey] = useState("");
+
+  const [page,setPage] = useState(1);
+  const [tCount,setTCount] = useState(0);
 
   const pageName = "Persons";
   const breadCrumbs = [
@@ -41,11 +47,12 @@ function PersonList() {
     "",
   ];
 
-  let getPerson = async (searchKey) => {
-    await axios.get(`http://localhost:7000/persons?keyword=${searchKey}`,
+  let getPerson = async (searchKey,page) => {
+    await axios.get(`http://localhost:7000/persons?keyword=${searchKey}&page=${page}`,
       { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
         const personData = response.data.data.dbData;
         setInfo(personData);
+        setTCount(response.data.data.dbCount);
       }).catch(error => {
         console.log(error.response)
       });
@@ -59,20 +66,23 @@ function PersonList() {
   const removeById = async (e, id) => {
     e.preventDefault();
     await axios.delete(`http://localhost:7000/person/${id}/delete`,
-      { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } })
-      .then(res => {
-        getPerson();
-      })
-      .catch(error => {
-        console.log(error.response)
+      { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } });
+      var personList = person.filter((item) => {
+        return item.id !== id;
       });
+      setInfo(personList);
 
+  }
+
+  const handlePageClick = (e) =>{
+    // e.preventDefault();
+    setPage(e.selected + 1);
   }
 
   useEffect(() => {
     document.title = `${process.env.REACT_APP_NAME}`;
-    getPerson(searchKey);
-  }, [searchKey]);
+    getPerson(searchKey,page);
+  }, [searchKey,page]);
   return (
     <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <div className="col-12 p-0 content-wrapper">
@@ -105,7 +115,7 @@ function PersonList() {
                   <div className="card-header border-transparent">
                     <div className={"row"}>
                       <form
-                        name={`${pageName}ListFilter`}> 
+                        name={`${pageName}ListFilter`}>
 
                         <div className="input-group mt-3 mb-3">
                           <input
@@ -182,6 +192,25 @@ function PersonList() {
                         ),
                       }))}
                       header={tableHeads}
+                    />
+                  </div>
+                  <div className="card-footer clearfix">
+                    <ReactPaginate
+                      breakLabel="..."
+                      nextLabel=" >>"
+                      onPageChange={handlePageClick}
+                      // pageRangeDisplayed={10}
+                      pageCount={tCount / 10}
+                      previousLabel="<<"
+                      renderOnZeroPageCount={null}
+                      containerClassName={"pagination justify-content-center"}
+                      pageClassName={"page-item"}
+                      pageLinkClassName={"page-link"}
+                      previousClassName={"page-item"}
+                      previousLinkClassName={"page-link"}
+                      nextClassName={"page-item"}
+                      nextLinkClassName={"page-link"}
+                      activeClassName={"active"}
                     />
                   </div>
                 </div>

@@ -25,7 +25,7 @@ function PersonCreate() {
     const [conpassword, setConPassword] = useState("");
     const [conpasswordError, setConPasswordError] = useState("");
 
-    const [role, setRole] = useState("");
+    const [role, setRole] = useState("H");
     const [roleError, setRoleError] = useState("");
 
     const [status, setStatus] = useState(1);
@@ -66,11 +66,11 @@ function PersonCreate() {
                     'authorization': localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME),
                 }
             }).then((response) => {
-                alert(response.data.status)
+                alert(response.data.message)
                 history.push("/persons")
 
             }).catch((error) => {
-                console.log(",,,,,,,,,,")
+                console.log(error.message)
             })
     };
 
@@ -293,7 +293,7 @@ function PersonCreate() {
                                                             value={role}
                                                             onChange={(e) => setRole(e.target.value)}>
                                                             <option value={"H"}>Head of Planning</option>
-                                                            <option value={"C"}>collaborator</option>
+                                                            <option value={"C"}>Collaborator</option>
                                                         </select>
                                                     <p style={{ color: 'red' }}>{roleError}</p>
                                                 </div>

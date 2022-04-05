@@ -80,11 +80,11 @@ function PersonEdit() {
                     'authorization': localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME),
                 }
             }).then((response) => {
-                alert(response.data.status)
+                alert(response.data.message)
                 history.push("/persons")
 
             }).catch((error) => {
-                console.log(",,,,,,,,,,")
+                alert(error.message)
             })
     };
 
