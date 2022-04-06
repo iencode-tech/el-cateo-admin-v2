@@ -17,7 +17,7 @@ import axios from "axios";
 
 function ZoneList() {
     var [zonas, setInfo] = useState([]);
-    const [searchKey, setSearchKey] = useState("");
+    var [searchKey, setSearchKey] = useState("");
 
     const [page, setPage] = useState(1);
     const [tCount, setTCount] = useState(0);
@@ -66,6 +66,11 @@ function ZoneList() {
             });
 
     }
+    const resetList = async(e) => {
+        searchKey = "";
+        setSearchKey(searchKey)
+        getZonas(searchKey,page)
+      }
 
     const handlePageClick = (e) => {
         setPage(e.selected + 1);
@@ -125,6 +130,7 @@ function ZoneList() {
                                                     <button
                                                         className="btn btn-outline-app"
                                                         type="reset"
+                                                        onClick={(e) => resetList(e)}
                                                     >
                                                         <FontAwesomeIcon icon={faRedo} />
                                                     </button>

@@ -140,7 +140,7 @@ function Dashboard() {
                         <tbody>
                           <tr>
                             <td>
-                              <a href="pages/examples/invoice.html">OR9842</a>
+                              <a href="pages/examples/invoice.html">1</a>
                             </td>
                             <td>Location1</td>
                             <td>
@@ -199,7 +199,7 @@ function Dashboard() {
                           </tr>
                           <tr>
                             <td>
-                              <a href="pages/examples/invoice.html">OR9842</a>
+                              <a href="pages/examples/invoice.html">2</a>
                             </td>
                             <td>Location1</td>
                             <td>
@@ -258,7 +258,7 @@ function Dashboard() {
                           </tr>
                           <tr>
                             <td>
-                              <a href="pages/examples/invoice.html">OR9842</a>
+                              <a href="pages/examples/invoice.html">3</a>
                             </td>
                             <td>Location1</td>
                             <td>
@@ -317,7 +317,7 @@ function Dashboard() {
                           </tr>
                           <tr>
                             <td>
-                              <a href="pages/examples/invoice.html">OR9842</a>
+                              <a href="pages/examples/invoice.html">4</a>
                             </td>
                             <td>Location1</td>
                             <td>
@@ -376,7 +376,7 @@ function Dashboard() {
                           </tr>
                           <tr>
                             <td>
-                              <a href="pages/examples/invoice.html">OR9842</a>
+                              <a href="pages/examples/invoice.html">5</a>
                             </td>
                             <td>Location1</td>
                             <td>
@@ -435,7 +435,7 @@ function Dashboard() {
                           </tr>
                           <tr>
                             <td>
-                              <a href="pages/examples/invoice.html">OR9842</a>
+                              <a href="pages/examples/invoice.html">6</a>
                             </td>
                             <td>Location1</td>
                             <td>
@@ -494,7 +494,7 @@ function Dashboard() {
                           </tr>
                           <tr>
                             <td>
-                              <a href="pages/examples/invoice.html">OR9842</a>
+                              <a href="pages/examples/invoice.html">7</a>
                             </td>
                             <td>Location1</td>
                             <td>

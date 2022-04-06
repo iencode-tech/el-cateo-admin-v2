@@ -49,6 +49,11 @@ function ManageFarm() {
             });
 
     }
+    const resetList = async(e) => {
+        search = "";
+        setSearch(search)
+        getUsers(search,page)
+      }
     const breadCrumbs = [
         {
             name: "Dashboard",
@@ -115,6 +120,8 @@ function ManageFarm() {
                                                 <button
                                                     className="btn btn-outline-app"
                                                     type="reset"
+                                                    onClick={(e) => resetList(e)}
+
                                                 >
                                                     <FontAwesomeIcon icon={faRedo} />
                                                 </button>

@@ -21,7 +21,7 @@ function PersonList() {
   const history = useHistory();
 
   var [person, setInfo] = useState([]);
-  const [searchKey, setSearchKey] = useState("");
+  var [searchKey, setSearchKey] = useState("");
 
   const [page,setPage] = useState(1);
   const [tCount,setTCount] = useState(0);
@@ -59,9 +59,6 @@ function PersonList() {
 
 
   };
-  // const handleSubmit = (e) =>{
-  //   e.preventDefault();
-  // }
 
   const removeById = async (e, id) => {
     e.preventDefault();
@@ -74,8 +71,13 @@ function PersonList() {
 
   }
 
+  const resetList = async(e) => {
+    searchKey = "";
+    setSearchKey(searchKey)
+    getPerson(searchKey,page)
+  }
+
   const handlePageClick = (e) =>{
-    // e.preventDefault();
     setPage(e.selected + 1);
   }
 
@@ -130,6 +132,7 @@ function PersonList() {
                           <button
                             className="btn btn-outline-app"
                             type="reset"
+                            onClick={(e) => resetList(e)}
                           >
                             <FontAwesomeIcon icon={faRedo} />
                           </button>

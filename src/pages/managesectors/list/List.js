@@ -46,6 +46,11 @@ function ManageSectors() {
 
 
     };
+    const resetList = async(e) => {
+        search = "";
+        setSearch(search)
+        getSectors(search,page)
+      }
 
     const removeById = async (e, id) => {
         e.preventDefault();
@@ -113,6 +118,8 @@ function ManageSectors() {
                                                 <button
                                                     className="btn btn-outline-app"
                                                     type="reset"
+                                                    onClick={(e) => resetList(e)}
+
                                                 >
                                                     <FontAwesomeIcon icon={faRedo} />
                                                 </button>

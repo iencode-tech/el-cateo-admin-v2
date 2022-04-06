@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { authCheck } from "../utils/authHelper";
 import AuthLayout from "../layout/AuthLayout";
+import ManageFarmLayout from "../layout/ManageFarmLayout";
 
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 
@@ -367,6 +368,7 @@ export default routes.map((route, index) => (
       ) : (
         <AuthLayout>{route.component}</AuthLayout>
       )
+
     }
   />
 ));
