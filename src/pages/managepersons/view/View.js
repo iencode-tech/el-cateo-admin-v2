@@ -31,7 +31,7 @@ function PersonView() {
     ];
 
     let getPersons = async () => {
-        await axios.get(`http://localhost:7000/person/${params.id}/read`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/${params.id}/read`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const personData = response.data.data;
                 console.log(personData);

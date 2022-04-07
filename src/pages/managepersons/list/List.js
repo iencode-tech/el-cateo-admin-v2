@@ -48,7 +48,7 @@ function PersonList() {
   ];
 
   let getPerson = async (searchKey,page) => {
-    await axios.get(`http://localhost:7000/persons?keyword=${searchKey}&page=${page}`,
+    await axios.get(`${process.env.REACT_APP_API_URL}/persons?keyword=${searchKey}&page=${page}`,
       { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
         const personData = response.data.data.dbData;
         setInfo(personData);
@@ -62,7 +62,7 @@ function PersonList() {
 
   const removeById = async (e, id) => {
     e.preventDefault();
-    await axios.delete(`http://localhost:7000/person/${id}/delete`,
+    await axios.delete(`${process.env.REACT_APP_API_URL}/person/${id}/delete`,
       { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } });
       var personList = person.filter((item) => {
         return item.id !== id;

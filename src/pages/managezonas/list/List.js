@@ -44,7 +44,7 @@ function ZoneList() {
     ];
 
     let getZonas = async (searchKey, page) => {
-        await axios.get(`http://localhost:7000/zones?keyword=${searchKey}&page=${page}`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/zones?keyword=${searchKey}&page=${page}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const zonaData = response.data.data.dbData;
                 setInfo(zonaData);
@@ -56,7 +56,7 @@ function ZoneList() {
 
     const removeById = async (e, id) => {
         e.preventDefault();
-        await axios.delete(`http://localhost:7000/zone/${id}/delete`,
+        await axios.delete(`${process.env.REACT_APP_API_URL}/zone/${id}/delete`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } })
             .then(res => {
                 getZonas();

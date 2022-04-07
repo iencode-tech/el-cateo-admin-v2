@@ -46,7 +46,7 @@ function PersonEdit() {
     const [status, setStatus] = useState(1);
 
     let getUserData = async () => {
-        await axios.get(`http://localhost:7000/person/${params.id}/read`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/person/${params.id}/read`,
             {
                 headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) }
             }).then((response) => {
@@ -66,7 +66,7 @@ function PersonEdit() {
     };
 
     const updateUser = async () => {
-        await axios.put(`http://localhost:7000/person/${params.id}/update`, {
+        await axios.put(`${process.env.REACT_APP_API_URL}person/${params.id}/update`, {
             "firstName": fname,
             "lastName": lname,
             "email": email,

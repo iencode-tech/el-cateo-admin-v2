@@ -35,7 +35,7 @@ function ManageSectors() {
 
 
     let getSectors = async (search, page) => {
-        await axios.get(`http://localhost:7000/sectors?keyword=${search}&page=${page}`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/sectors?keyword=${search}&page=${page}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const sectorData = response.data.data.dbData;
                 setInfo(sectorData);
@@ -54,7 +54,7 @@ function ManageSectors() {
 
     const removeById = async (e, id) => {
         e.preventDefault();
-        await axios.delete(`http://localhost:7000/sector/${id}/delete`,
+        await axios.delete(`${process.env.REACT_APP_API_URL}/sector/${id}/delete`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } })
             .then(res => {
                 getSectors();

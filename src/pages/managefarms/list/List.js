@@ -24,7 +24,7 @@ function ManageFarm() {
     var [search, setSearch] = useState("");
     
     let getUsers = async (search,page) => {
-        await axios.get(`http://localhost:7000/farms?keyword=${search}&page=${page}`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/farms?keyword=${search}&page=${page}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const userData = response.data.data.dbData;
                 setInfo(userData);

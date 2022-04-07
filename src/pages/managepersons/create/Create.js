@@ -50,7 +50,7 @@ function PersonCreate() {
 
     // api calling for create user
     const createUser = async () => {
-        await axios.post("http://localhost:7000/person/store", {
+        await axios.post(`${process.env.REACT_APP_API_URL}/person/store`, {
             "firstName": fname,
             "lastName": lname,
             "email": email,

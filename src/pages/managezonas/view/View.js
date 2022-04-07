@@ -32,7 +32,7 @@ function ZonaView() {
     ];
 
     let getZonas = async () => {
-        await axios.get(`http://localhost:7000/zone/${params.id}/read`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/zone/${params.id}/read`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const zonasData = response.data.data;
                 console.log(zonasData)

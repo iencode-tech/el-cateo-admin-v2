@@ -34,7 +34,7 @@ function FarmCreate() {
 
     // api calling for create user
     const createUser = async () => {
-        await axios.post("http://localhost:7000/farm/store", {
+        await axios.post(`${process.env.REACT_APP_API_URL}/farm/store`, {
             "name": name,
             "location": location,
             "area": area,

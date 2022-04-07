@@ -45,3 +45,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 # el-cateo-admin
 # el-cateo-admin
 # el-cateo-admin-v2
+
+# For pagination
+
+here we use react-paginate npm
+
+link : https://www.npmjs.com/package/react-paginate

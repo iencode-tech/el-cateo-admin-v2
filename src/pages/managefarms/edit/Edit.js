@@ -37,7 +37,7 @@ function FarmEdit() {
 
     //api calling for get farm by id
     let getFarmData = async () => {
-        await axios.get(`http://localhost:7000/farm/${params.id}/read`, { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/farm/${params.id}/read`, { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
             const userData = response.data.data;
             setArea(userData.area);
             setLocation(userData.location);
@@ -52,7 +52,7 @@ function FarmEdit() {
 
     // api calling for update user
     const createFarm = async () => {
-        await axios.put(`http://localhost:7000/farm/${params.id}/update`, {
+        await axios.put(`${process.env.REACT_APP_API_URL}/farm/${params.id}/update`, {
             "name": name,
             "location": location,
             "area": area,

@@ -34,7 +34,7 @@ function SectorView() {
     ];
 
     let getUsers = async () => {
-        await axios.get(`http://localhost:7000/sector/${params.id}/read`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/sector/${params.id}/read`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const sectorData = response.data.data;
                 setInfo(sectorData);

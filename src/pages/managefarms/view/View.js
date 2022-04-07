@@ -36,7 +36,7 @@ function FarmView() {
     const pageName = "View Farm";
 
     let getUsers = async () => {
-        await axios.get(`http://localhost:7000/farm/${params.id}/read`, { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/farm/${params.id}/read`, { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
             const userData = response.data.data;
             // console.log(userData)
             setInfo(userData);
