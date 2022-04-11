@@ -4,11 +4,16 @@ import "./Create.scss";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import axios from "axios";
 
+//material-ui import
+import Button from '@material-ui/core/Button';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import IconButton from '@material-ui/core/IconButton';
+
 function FarmCreate() {
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState("");
-    const [location, setLocation] = useState("");
-    const [locationError, setLocationError] = useState("");
+    const [address, setAddress] = useState("");
+    const [addressError, setaddressError] = useState("");
 
     const [area, setArea] = useState("");
     const [areaError, setAreaError] = useState("");
@@ -36,21 +41,21 @@ function FarmCreate() {
     const createUser = async () => {
         await axios.post(`${process.env.REACT_APP_API_URL}/farm/store`, {
             "name": name,
-            "location": location,
+            "location": address,
             "area": area,
             "status": status
         },
-        {
-            headers: {
-                'authorization': localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME),
-            }
-        }).then((response) => {
-            alert(response.data.message)
-            history.push("/farms")
+            {
+                headers: {
+                    'authorization': localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME),
+                }
+            }).then((response) => {
+                alert(response.data.message)
+                history.push("/farms")
 
-        }).catch((error) => {
-            alert(error.message)
-        })
+            }).catch((error) => {
+                alert(error.message)
+            })
     };
 
     // for submit
@@ -58,30 +63,30 @@ function FarmCreate() {
         e.preventDefault();
         let error = false;
 
-        if(!name) {
-            setNameError("Required");
+        if (!name) {
+            setNameError("Name is Required");
             error = true;
         } else {
             setNameError("");
         }
 
-        if(!location) {
-            setLocationError("Required");
+        if (!address) {
+            setaddressError(" Address is Required");
             error = true;
-        }else{
-            setLocationError("");
+        } else {
+            setaddressError("");
 
         }
 
-        if(!area) {
-            setAreaError("Required");
+        if (!area) {
+            setAreaError("Area is Required");
             error = true;
-        }else{
+        } else {
             setAreaError("");
 
         }
 
-        if(error == false) {
+        if (error == false) {
             createUser();
         }
     }
@@ -121,60 +126,52 @@ function FarmCreate() {
                                         <div className="card-body">
                                             <div className="row mb-3">
                                                 <div className="col-md-6">
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="name"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="name"
-                                                            placeholder="Enter name"
-                                                            value={name}
-                                                            onChange={(e) => setName(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Name <span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput">Name <span className="text-danger">*</span></label>
+                                                    <input
+                                                        name="name"
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="name"
+                                                        placeholder="Enter name"
+                                                        value={name}
+                                                        onChange={(e) => setName(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{nameError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="location"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="location"
-                                                            placeholder="Enter location"
-                                                            value={location}
-                                                            onChange={(e) => setLocation(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Location <span className="text-danger">*</span></label>
-                                                    </div>
-                                                    <p style={{ color: 'red' }}>{locationError}</p>
-                                                </div>
-
-                                                <div className="mb-3">
+                                                    <label htmlFor="floatingInput">Area <span className="text-danger">*</span></label>
                                                     <br />
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="area"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="area"
-                                                            placeholder="Enter area"
-                                                            value={area}
-                                                            onChange={(e) => setArea(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Area<span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <input
+                                                        name="name"
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="name"
+                                                        placeholder="Enter area"
+                                                        value={area}
+                                                        onChange={(e) => setArea(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{areaError}</p>
-
                                                 </div>
-
-
 
                                                 <div className="col-md-6">
-                                                    <label>Status<span className="text-danger">*</span></label>
+                                                    <label htmlFor="floatingInput">Address <span className="text-danger">*</span></label>
+                                                    <textarea
+                                                        name="location"
+                                                        rows={5}
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="location"
+                                                        placeholder="Enter address"
+                                                        value={address}
+                                                        onChange={(e) => setAddress(e.target.value)}
+                                                    />
+                                                    <p style={{ color: 'red' }}>{addressError}</p>
+                                                </div>
 
+                                                <div className="col-md-6">
+                                                    <label>Status <span className="text-danger">*</span></label>
+                                                    <br />
                                                     <select
                                                         id="input4"
                                                         className="form-select"
@@ -185,9 +182,46 @@ function FarmCreate() {
                                                         <option value={1}>Active</option>
                                                         <option value={0}>Inactive</option>
                                                     </select>
-                                                    {/* <p style={{ color: 'red' }}>{formError.status}</p> */}
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        margin: 'auto',
+                                                        width: 400,
+                                                        flexWrap: 'wrap',
+                                                    }}>
+                                                        {/* <div style={{ width: '100%', float: 'left' }}>
+                                                        <h3>How to use create button to choose file in ReactJS?</h3> <br />
+                                                    </div> */}
+                                                        {/* <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            style={{ display: 'none' }}
+                                                            id="contained-button-file"
+                                                        /> */}
+                                                        {/* <label htmlFor="contained-button-file">
+                                                            <Button variant="contained" color="primary" component="span">
+                                                                Upload
+                                                            </Button>
+                                                        </label>
+                                                        <h3>  OR  </h3> */}
+                                                        <label htmlFor="floatingInput">Photo Upload <span className="text-danger">*</span></label>
+
+                                                        <label htmlFor="icon-button-file">
+                                                            <IconButton color="primary" aria-label="upload picture"
+                                                                component="span">
+                                                                <PhotoCamera />
+                                                            </IconButton>
+                                                        </label>
+                                                        <input accept="image/*" id="icon-button-file"
+                                                            type="file" style={{ display: 'none' }} />
+
+                                                    </div>
 
                                                 </div>
+
+
+
 
                                             </div>
                                         </div>
@@ -197,14 +231,15 @@ function FarmCreate() {
                                                 Save
                                             </button>
                                         </div>
+                                        {/* </div> */}
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
-        </div>
+                </section >
+            </div >
+        </div >
     );
 }
 

@@ -48,19 +48,19 @@ function LeftSideBar() {
       link: "/farms",
       active: false,
     },
-    {
-      name: "Manage Sectors",
-      icon: faClipboardList,
-      link: "/sectors",
-      active: false,
+    // {
+    //   name: "Manage Sectors",
+    //   icon: faClipboardList,
+    //   link: "/sectors",
+    //   active: false,
       
-    },
-    {
-      name: "Manage Zona",
-      icon: faPaperPlane,
-      link: "/zonas",
-      active: false,
-    },
+    // },
+    // {
+    //   name: "Manage Zona",
+    //   icon: faPaperPlane,
+    //   link: "/zonas",
+    //   active: false,
+    // },
     
     {
       name: "Reports",
