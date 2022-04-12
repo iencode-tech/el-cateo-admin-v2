@@ -186,7 +186,7 @@ function FarmCreate() {
                                                 <div className="col-md-6">
                                                     <div style={{
                                                         display: 'flex',
-                                                        margin: 'auto',
+                                                        margin: 10,
                                                         width: 400,
                                                         flexWrap: 'wrap',
                                                     }}>
@@ -205,7 +205,7 @@ function FarmCreate() {
                                                             </Button>
                                                         </label>
                                                         <h3>  OR  </h3> */}
-                                                        <label htmlFor="floatingInput">Photo Upload <span className="text-danger">*</span></label>
+                                                        <label htmlFor="floatingInput">Photo Upload </label>
 
                                                         <label htmlFor="icon-button-file">
                                                             <IconButton color="primary" aria-label="upload picture"
@@ -215,14 +215,15 @@ function FarmCreate() {
                                                         </label>
                                                         <input accept="image/*" id="icon-button-file"
                                                             type="file" style={{ display: 'none' }} />
-
                                                     </div>
-
                                                 </div>
-
-
-
-
+                                                <div className="col-md-6">
+                                                    <img src="images/ricefarm.jpg" style={{
+                                                        width:500,
+                                                        height:200
+                                                    }}/>
+                                                    
+                                                </div>
                                             </div>
                                         </div>
 

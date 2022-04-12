@@ -106,7 +106,7 @@ function ManageFarm() {
                         <br />
                         <div className="row" >
                             {user.map(users => (
-                                <div className="col-md-4">
+                                <div className="col-md-6">
                                     {/* new card */}
                                     <div className="card" >
                                         <img src="images/404-bg.jpg" className="card-img-top" />
@@ -119,7 +119,7 @@ function ManageFarm() {
 
                                             <div className="dropdown">
                                                 <button
-                                                    className="btn btn-outline-app dropdown-toggle"
+                                                    className="btn btn-outline-app dropdown-toggle cursor"
                                                     type="button"
                                                     data-bs-toggle="dropdown"
                                                     aria-expanded="false"

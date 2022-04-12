@@ -8,8 +8,9 @@ import { useParams } from "react-router";
 function FarmEdit() {
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState("");
-    const [location, setLocation] = useState("");
-    const [locationError, setLocationError] = useState("");
+
+    const [address, setAddress] = useState("");
+    const [addressError, setaddressError] = useState("");
 
     const [area, setArea] = useState("");
     const [areaError, setAreaError] = useState("");
@@ -40,7 +41,7 @@ function FarmEdit() {
         await axios.get(`${process.env.REACT_APP_API_URL}/farm/${params.id}/read`, { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
             const userData = response.data.data;
             setArea(userData.area);
-            setLocation(userData.location);
+            setAddress(userData.address);
             setStatus(userData.status);
             setName(userData.name)
 
@@ -54,7 +55,7 @@ function FarmEdit() {
     const createFarm = async () => {
         await axios.put(`${process.env.REACT_APP_API_URL}/farm/${params.id}/update`, {
             "name": name,
-            "location": location,
+            "address": address,
             "area": area,
             "status": status
         },
@@ -82,11 +83,11 @@ function FarmEdit() {
             setNameError("");
         }
 
-        if (!location) {
-            setLocationError("Required");
+        if (!address) {
+            setaddressError("Required");
             error = true;
         } else {
-            setLocationError("");
+            setaddressError("");
 
         }
 
@@ -138,56 +139,53 @@ function FarmEdit() {
                                         <div className="card-body">
                                             <div className="row mb-3">
                                                 <div className="col-md-6">
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="name"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="name"
-                                                            placeholder="Enter name"
-                                                            value={name}
-                                                            onChange={(e) => setName(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Name <span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput">Name <span className="text-danger">*</span></label>
+                                                    <input
+                                                        name="name"
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="name"
+                                                        placeholder="Enter name"
+                                                        value={name}
+                                                        onChange={(e) => setName(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{nameError}</p>
                                                 </div>
 
-                                                <div className="col-md-6">
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="location"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="location"
-                                                            placeholder="Enter location"
-                                                            value={location}
-                                                            onChange={(e) => setLocation(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Location <span className="text-danger">*</span></label>
-                                                    </div>
-                                                    <p style={{ color: 'red' }}>{locationError}</p>
-                                                </div>
 
-                                                <div className="mb-3">
+                                                <div className="col-md-6">
+                                                    <label htmlFor="floatingInput">Area <span className="text-danger">*</span></label>
                                                     <br />
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="area"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="area"
-                                                            placeholder="Enter area"
-                                                            value={area}
-                                                            onChange={(e) => setArea(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Area<span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <input
+                                                        name="name"
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="name"
+                                                        placeholder="Enter area"
+                                                        value={area}
+                                                        onChange={(e) => setArea(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{areaError}</p>
                                                 </div>
-                                                <div className="col-md-6">
-                                                    <label>Status<span className="text-danger">*</span></label>
 
+                                                <div className="col-md-6">
+                                                    <label htmlFor="floatingInput">Address <span className="text-danger">*</span></label>
+                                                    <textarea
+                                                        name="location"
+                                                        rows={5}
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="location"
+                                                        placeholder="Enter address"
+                                                        value={address}
+                                                        onChange={(e) => setAddress(e.target.value)}
+                                                    />
+                                                    <p style={{ color: 'red' }}>{addressError}</p>
+                                                </div>
+
+                                                <div className="col-md-6">
+                                                    <label>Status <span className="text-danger">*</span></label>
+                                                    <br />
                                                     <select
                                                         id="input4"
                                                         className="form-select"
