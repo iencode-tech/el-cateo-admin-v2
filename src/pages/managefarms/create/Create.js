@@ -1,8 +1,10 @@
+import { statuses } from "../../../utils/appConstants";
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
 import "./Create.scss";
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import axios from "axios";
+import { fetchAuthToken } from "../../../utils/authHelper";
 
 //material-ui import
 import Button from '@material-ui/core/Button';
@@ -10,16 +12,22 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import IconButton from '@material-ui/core/IconButton';
 
 function FarmCreate() {
-    const [name, setName] = useState("");
-    const [nameError, setNameError] = useState("");
-    const [address, setAddress] = useState("");
-    const [addressError, setaddressError] = useState("");
+    const initialValues = {
+        name: "",
+        assignedOwner: "",
+        address: "",
+        area: "",
+        status: "1",
+        files: "",
+    };
 
-    const [area, setArea] = useState("");
-    const [areaError, setAreaError] = useState("");
+    const [formValues, setFormValues] = useState(initialValues);
+    const [formErrors, setFormErrors] = useState({});
 
-    const [status, setStatus] = useState(1);
-    const history = useHistory();
+    const [isSubmit, setIsSubmit] = useState(false);
+
+    const [image, setImage] = useState(null);
+    const [imageData, setImageData] = useState(null);
 
     const pageName = "Add Farm";
     const breadCrumbs = [
@@ -37,62 +45,105 @@ function FarmCreate() {
         },
     ];
 
-    // api calling for create user
-    const createUser = async () => {
-        await axios.post(`${process.env.REACT_APP_API_URL}/farm/store`, {
-            "name": name,
-            "location": address,
-            "area": area,
-            "status": status
-        },
-            {
-                headers: {
-                    'authorization': localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME),
-                }
-            }).then((response) => {
-                alert(response.data.message)
-                history.push("/farms")
+    const history = useHistory();
 
-            }).catch((error) => {
-                alert(error.message)
-            })
+
+    const onImageChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setImage(URL.createObjectURL(event.target.files[0]));
+            setImageData(event.target.files[0]);
+        }
     };
 
-    // for submit
-    const handleSubmit = (e) => {
+
+    const _handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({ ...formValues, [name]: value });
+    };
+
+    // api calling for create user
+    const _handleFormSubmit = async (e) => {
         e.preventDefault();
-        let error = false;
+        setFormErrors(validate(formValues));
+        let formData = new FormData();
+        formData.append("name", formValues.name);
+        formData.append("assignedOwner", formValues.assignedOwner);
+        formData.append("address", formValues.address);
+        formData.append("area", formValues.area);
+        formData.append("status", formValues.status);
+        formData.append("files", imageData);
+        setIsSubmit(true);
 
-        if (!name) {
-            setNameError("Name is Required");
-            error = true;
-        } else {
-            setNameError("");
+         await   axios.post(`${process.env.REACT_APP_API_URL}/farm/store`, formData, {
+                    headers: { Authorization: fetchAuthToken() },
+                })
+                .then((response) => {
+                    alert(response.message)
+                    history.push("/farms");
+                }).catch((error) => {
+                    alert(error.message)
+                });
+    };
+    const validate = (values) => {
+        const errors = {};
+        const regex = /^[a-zA-Z]{3,}$/i;
+        if (!values.name) {
+            errors.name = "Name is required!";
         }
-
-        if (!address) {
-            setaddressError(" Address is Required");
-            error = true;
-        } else {
-            setaddressError("");
-
+        //  else if (!regex.test(values.name)) {
+        //     errors.name = "This is not a valid name!";
+        // }
+        if (!values.address) {
+            errors.address = "Location is required!";
         }
-
-        if (!area) {
-            setAreaError("Area is Required");
-            error = true;
-        } else {
-            setAreaError("");
-
+        if (!values.area) {
+            errors.area = "Area is required!";
         }
+        return errors;
+    };
 
-        if (error == false) {
-            createUser();
-        }
-    }
 
     useEffect(() => {
-    }, [])
+        document.title = `${process.env.REACT_APP_NAME} | ${pageName}`;
+        if (Object.keys(formErrors).length === 0 && isSubmit) {
+        }
+    }, [formErrors]);
+    //  for submit
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     let error = false;
+
+    //     if (!name) {
+    //         setNameError("Name is Required");
+    //         error = true;
+    //     } else {
+    //         setNameError("");
+    //     }
+
+    //     if (!address) {
+    //         setaddressError(" Address is Required");
+    //         error = true;
+    //     } else {
+    //         setaddressError("");
+
+    //     }
+
+    //     if (!area) {
+    //         setAreaError("Area is Required");
+    //         error = true;
+    //     } else {
+    //         setAreaError("");
+
+    //     }
+
+    //     if (error == false) {
+    //         createUser();
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     onImageChange()
+    // }, [])
 
 
     return (
@@ -120,7 +171,7 @@ function FarmCreate() {
                                         <div className={"row"}>&nbsp;</div>
                                     </div>
 
-                                    <form onSubmit={handleSubmit}
+                                    <form onSubmit={_handleFormSubmit}
                                         method="POST"
                                         encType={`multipart/form-data`}>
                                         <div className="card-body">
@@ -133,40 +184,40 @@ function FarmCreate() {
                                                         className="form-control"
                                                         id="name"
                                                         placeholder="Enter name"
-                                                        value={name}
-                                                        onChange={(e) => setName(e.target.value)}
+                                                        value={formValues.name}
+                                                        onChange={_handleOnChange}
                                                     />
-                                                    <p style={{ color: 'red' }}>{nameError}</p>
+                                                    <p style={{ color: 'red' }}>{formErrors.name}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
                                                     <label htmlFor="floatingInput">Area <span className="text-danger">*</span></label>
                                                     <br />
                                                     <input
-                                                        name="name"
+                                                        name="area"
                                                         type="text"
                                                         className="form-control"
-                                                        id="name"
+                                                        id="area"
                                                         placeholder="Enter area"
-                                                        value={area}
-                                                        onChange={(e) => setArea(e.target.value)}
+                                                        value={formValues.area}
+                                                        onChange={_handleOnChange}
                                                     />
-                                                    <p style={{ color: 'red' }}>{areaError}</p>
+                                                    <p style={{ color: 'red' }}>{formErrors.area}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
                                                     <label htmlFor="floatingInput">Address <span className="text-danger">*</span></label>
                                                     <textarea
-                                                        name="location"
+                                                        name="address"
                                                         rows={5}
                                                         type="text"
                                                         className="form-control"
-                                                        id="location"
+                                                        id="address"
                                                         placeholder="Enter address"
-                                                        value={address}
-                                                        onChange={(e) => setAddress(e.target.value)}
+                                                        value={formValues.address}
+                                                        onChange={_handleOnChange}
                                                     />
-                                                    <p style={{ color: 'red' }}>{addressError}</p>
+                                                    <p style={{ color: 'red' }}>{formErrors.address}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
@@ -176,11 +227,14 @@ function FarmCreate() {
                                                         id="input4"
                                                         className="form-select"
                                                         name="status"
-                                                        value={status}
-                                                        onChange={(e) => setStatus(e.target.value)}
+                                                        value={formValues.status}
+                                                        onChange={_handleOnChange}
                                                     >
-                                                        <option value={1}>Active</option>
-                                                        <option value={0}>Inactive</option>
+                                                        {Object.keys(statuses).map((status, index) => (
+                                                            <option key={index} value={status}>
+                                                                {statuses[status]}
+                                                            </option>
+                                                        ))}
                                                     </select>
                                                 </div>
                                                 <div className="col-md-6">
@@ -190,45 +244,24 @@ function FarmCreate() {
                                                         width: 400,
                                                         flexWrap: 'wrap',
                                                     }}>
-                                                        {/* <div style={{ width: '100%', float: 'left' }}>
-                                                        <h3>How to use create button to choose file in ReactJS?</h3> <br />
-                                                    </div> */}
-                                                        {/* <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            style={{ display: 'none' }}
-                                                            id="contained-button-file"
-                                                        /> */}
-                                                        {/* <label htmlFor="contained-button-file">
-                                                            <Button variant="contained" color="primary" component="span">
-                                                                Upload
-                                                            </Button>
-                                                        </label>
-                                                        <h3>  OR  </h3> */}
-                                                        <label htmlFor="floatingInput">Photo Upload </label>
-
-                                                        <label htmlFor="icon-button-file">
-                                                            <IconButton color="primary" aria-label="upload picture"
-                                                                component="span">
-                                                                <PhotoCamera />
-                                                            </IconButton>
-                                                        </label>
                                                         <input accept="image/*" id="icon-button-file"
-                                                            type="file" style={{ display: 'none' }} />
+                                                            type="file"
+                                                            value={formValues.files}
+                                                            onChange={onImageChange}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
-                                                    <img src="images/ricefarm.jpg" style={{
-                                                        width:500,
-                                                        height:200
-                                                    }}/>
-                                                    
+                                                    <img src={image} width={300}
+                                                        height={150} />
+
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="card-footer clearfix">
                                             <button type="submit" className="btn btn-sm btn-app float-end">
+
                                                 Save
                                             </button>
                                         </div>

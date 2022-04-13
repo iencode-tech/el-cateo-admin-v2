@@ -21,6 +21,7 @@ function ManageFarm() {
     const pageName = "Farms";
 
     var [user, setInfo] = useState([]);
+    var [fileUrl, setFileUrl] = useState([]);
 
     const [page, setPage] = useState(1);
     const [tCount, setTCount] = useState(0);
@@ -32,6 +33,7 @@ function ManageFarm() {
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const userData = response.data.data.dbData;
                 setInfo(userData);
+                setFileUrl(userData.files)
                 setTCount(response.data.data.dbCount)
                 if (response.data.data.dbData === 0) {
                     getUsers();
@@ -109,11 +111,12 @@ function ManageFarm() {
                                 <div className="col-md-6">
                                     {/* new card */}
                                     <div className="card" >
-                                        <img src="images/404-bg.jpg" className="card-img-top" />
+                                        {/* {fileUrl.map(images => ( */}
+                                            <img src="images/ricefarm.jpg" className="card-img-top" />
+                                        {/* // ))} */}
                                         <div className="card-body">
                                             <h5 className="card-title">{users.name}</h5>
                                             <p className="card-text">Address : XYZ County, USA</p>
-                                            {/* <Button className="btn btn-sm btn-app ms-6">Manage</Button> */}
 
                                             {/* manage section */}
 
