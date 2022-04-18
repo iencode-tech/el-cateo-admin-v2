@@ -111,12 +111,44 @@ function ManageFarm() {
                                 <div className="col-md-6">
                                     {/* new card */}
                                     <div className="card" >
-                                        {/* {fileUrl.map(images => ( */}
-                                            <img src="images/ricefarm.jpg" className="card-img-top" />
-                                        {/* // ))} */}
+
+                                        {(() => {
+                                            if (users?.files?.length > 0) {
+                                                return (
+                                                    <div>
+                                                        {
+                                                            users.files.map(images => (
+                                                                <img src={images} className="card-img-top" />
+                                                            ))
+                                                        }
+                                                    </div>
+
+                                                )
+                                            } else {
+                                                return (
+                                                    // <img src="images/402-bg.jpg" className="card-img-top" />
+                                                    <p>Image not Available</p>
+                                                )
+                                            }
+                                        })()}
+
                                         <div className="card-body">
                                             <h5 className="card-title">{users.name}</h5>
-                                            <p className="card-text">Address : XYZ County, USA</p>
+                                            {(() => {
+                                                if (users?.address) {
+                                                    return (
+                                                        <div>
+                                                            <p className="card-text">Address : {users.address}</p>
+
+                                                        </div>
+
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <p className="card-text">Address : Not registered</p>
+                                                        )
+                                                }
+                                            })()}
 
                                             {/* manage section */}
 

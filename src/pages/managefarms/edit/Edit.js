@@ -229,7 +229,7 @@ function FarmEdit() {
                                                     }}>
                                                         <input accept="image/*" id="icon-button-file"
                                                             type="file" onChange={onImageChange}
-                                                            value={formValues.files}
+                                                            value=""
                                                         />
                                                     </div>
                                                 </div>
