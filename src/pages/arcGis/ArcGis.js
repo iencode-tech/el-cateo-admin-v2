@@ -4,7 +4,7 @@ import Breadcrumb from "../../components/common/breadcrumb/Breadcrumb";
 
 function ArcGis() {
   const pageName = "ArcGis";
-  const routeStart = "/arcgis";
+  // const routeStart = "/arcgis";
   const breadCrumbs = [
     {
       name: "Dashboard",

@@ -1,6 +1,6 @@
 import React from "react";
 import { statuses } from "../../../../utils/appConstants";
-import SoilView from "../linked/soils/view/View";
+// import SoilView from "../linked/soils/view/View";
 
 function ZoneView({ formData, _handleOnChange, _addNewSoil, _removeSoil }) {
   return (

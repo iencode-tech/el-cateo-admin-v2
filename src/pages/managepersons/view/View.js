@@ -31,10 +31,9 @@ function PersonView() {
     ];
 
     let getPersons = async () => {
-        await axios.get(`${process.env.REACT_APP_API_URL}/${params.id}/read`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/person/${params.id}/read`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const personData = response.data.data;
-                console.log(personData);
                 setInfo(personData);
 
             }).catch(error => {

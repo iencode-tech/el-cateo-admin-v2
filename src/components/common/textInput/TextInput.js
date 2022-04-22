@@ -17,7 +17,7 @@ function TextInput(props) {
   // Remove if Validation causes issue
   useEffect(() => {
     _validate();
-  }, []);
+  });
 
   return (
     <div className="m-2">

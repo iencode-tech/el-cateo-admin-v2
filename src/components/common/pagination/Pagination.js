@@ -3,12 +3,7 @@ import PropTypes from "prop-types";
 import "./Pagination.scss";
 import { perPage } from "../../../utils/appConstants";
 import {
-  faEdit,
-  faEye,
-  faRedo,
-  faSearch,
-  faTrash,
-  faArrowAltCircleLeft,
+  
   faArrowLeft,
   faArrowRight
 } from "@fortawesome/free-solid-svg-icons";

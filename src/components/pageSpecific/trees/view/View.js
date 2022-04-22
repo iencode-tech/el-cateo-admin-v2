@@ -1,9 +1,9 @@
 import React from "react";
 import { statuses, filePathUrl } from "../../../../utils/appConstants";
 import { utcToLocalTime } from "../../../../utils/timeHelper";
-import FileInput from "../../../common/fileInput/FileInput";
+// import FileInput from "../../../common/fileInput/FileInput";
 import FilePreview from "../../../common/filePreview/FilePreview";
-import SelectDynamic from "../../../common/select/Select";
+// import SelectDynamic from "../../../common/select/Select";
 
 function TreeView({ formData }) {
   return (

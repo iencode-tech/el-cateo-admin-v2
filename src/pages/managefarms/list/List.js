@@ -3,6 +3,7 @@ import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
 import "./List.scss";
 import axios from "axios";
+import { statuses,filePathUrl  } from "../../../utils/appConstants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faEdit,
@@ -108,17 +109,18 @@ function ManageFarm() {
                         <br />
                         <div className="row" >
                             {user.map(users => (
-                                <div className="col-md-6">
+                                <div  key ={users.id}className="col-md-6">
                                     {/* new card */}
                                     <div className="card" >
 
                                         {(() => {
                                             if (users?.files?.length > 0) {
                                                 return (
-                                                    <div>
+                                                    <div style={{width:'25%'}}>
                                                         {
-                                                            users.files.map(images => (
-                                                                <img src={images} className="card-img-top" />
+                                                            users.files.map((images,index) => (
+                                                                <img 
+                                                               key={index} src={filePathUrl.farms + "/" + images} className="card-img-top" />
                                                             ))
                                                         }
                                                     </div>
@@ -168,7 +170,7 @@ function ManageFarm() {
                                                     <li>
                                                         <Link
                                                             className="dropdown-item"
-
+                                                            to={`/farms/${users.id}/edit`}
                                                         >
                                                             Manage
                                                         </Link>
@@ -185,7 +187,7 @@ function ManageFarm() {
                                                     <li>
                                                         <Link
                                                             className="dropdown-item"
-
+                                                            to={`/farms/${users.id}/edit`}
                                                         >
                                                             Status
                                                         </Link>

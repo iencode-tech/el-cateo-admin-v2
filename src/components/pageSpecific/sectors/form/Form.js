@@ -5,8 +5,7 @@ import { statuses } from "../../../../utils/appConstants";
 import TextInput from "../../../common/textInput/TextInput";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  initFormData,
-  deleteData,
+  
   fetchList,
   handleListFormDataChange,
   selectTree,
@@ -16,7 +15,7 @@ import Pagination from "../../../../components/common/pagination/Pagination";
 function SectorForm({
   formData,
   _handleOnChange,
-  trees,
+  
   _fetchAllTrees,
   illnesses,
   _fetchAllIllnesses,
@@ -25,9 +24,9 @@ function SectorForm({
 }) {
   const store = useSelector(selectTree);
   const dispatch = useDispatch();
-  const page = {
-    current: 1
-  };
+  // const page = {
+  //   current: 1
+  // };
 
   const _addSelection = (tree) => {
     _handleOnChange({

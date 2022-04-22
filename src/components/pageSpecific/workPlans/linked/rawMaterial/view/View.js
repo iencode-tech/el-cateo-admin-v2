@@ -6,13 +6,13 @@ import {
 } from "../../../../../../utils/appConstants";
 
 function RawMaterialView({ formData, _checkFolialDrenche, _checkManual }) {
-  const _getAmountPerTree = () => {
-    let amountPerTree = 1;
-    if (formData.amountPerTree && formData.amountPerTree !== 0) {
-      amountPerTree = parseFloat(formData.amountPerTree);
-    }
-    return amountPerTree;
-  };
+  // const _getAmountPerTree = () => {
+  //   let amountPerTree = 1;
+  //   if (formData.amountPerTree && formData.amountPerTree !== 0) {
+  //     amountPerTree = parseFloat(formData.amountPerTree);
+  //   }
+  //   return amountPerTree;
+  // };
 
   const _calculateTotalBasedOnMethod = () => {
     let totalQ = 0;

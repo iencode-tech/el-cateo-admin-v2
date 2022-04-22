@@ -14,15 +14,15 @@ function RawMaterialView({ formData }) {
     return rawMaterialData.quantity || 0;
   };
 
-  const _getRemaining = () => {
-    let remainingTotal = 0;
-    if (formData.rawMaterials && formData.rawMaterials.length > 0) {
-      for (let i = 1; i < formData.rawMaterials.length; i++) {
-        remainingTotal += parseFloat(formData.rawMaterials[i].quantity) || 0;
-      }
-    }
-    return remainingTotal;
-  };
+  // const _getRemaining = () => {
+  //   let remainingTotal = 0;
+  //   if (formData.rawMaterials && formData.rawMaterials.length > 0) {
+  //     for (let i = 1; i < formData.rawMaterials.length; i++) {
+  //       remainingTotal += parseFloat(formData.rawMaterials[i].quantity) || 0;
+  //     }
+  //   }
+  //   return remainingTotal;
+  // };
 
   useEffect(() => {
     if (

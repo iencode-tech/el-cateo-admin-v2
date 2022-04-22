@@ -4,26 +4,15 @@ import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import pluralize from "pluralize";
 import {
-  faAtom,
-  faClipboardList,
-  faCog,
   faCrosshairs,
-  faCube,
   faDesktop,
-  faDolly,
   faFileAlt,
   faFileInvoice,
-  faMapMarkerAlt,
-  faPencilAlt,
-  faShareAlt,
-  faShoppingCart,
-  faSkullCrossbones,
   faTree,
   faUser,
   faArrowAltCircleUp
 } from "@fortawesome/free-solid-svg-icons";
-import { faElementor, faTradeFederation } from "@fortawesome/free-brands-svg-icons";
-import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+
 
 function LeftSideBar() {
   const location = useLocation();

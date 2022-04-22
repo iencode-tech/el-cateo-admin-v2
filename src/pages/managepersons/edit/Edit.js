@@ -40,6 +40,12 @@ function PersonEdit() {
     const [address, setAddress] = useState("");
     const [adressError, setAddressError] = useState("");
 
+    const [allrole, setAllrole] = useState("");
+
+    const [allFarm, setAllFarm] = useState("");
+
+    const [farm, setFarm] = useState("");
+
     const [role, setRole] = useState("");
     const [roleError, setRoleError] = useState("");
 
@@ -56,7 +62,7 @@ function PersonEdit() {
                 setEmail(userData.email);
                 setPhone(userData.phone);
                 setAddress(userData.address);
-                setRole(userData.role);
+                setRole(userData.role_type);
                 setStatus(userData.status);
 
             }).catch(error => {
@@ -64,6 +70,17 @@ function PersonEdit() {
             });
 
     };
+    const getFarmList = async () => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/farms`,
+            { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+                const farmData = response.data.data.dbData;
+                setAllFarm(farmData)
+                setFarm(farmData[0].id)
+                console.log(farmData);
+            }).catch(error => {
+                console.log(error.response)
+            });
+    }
 
     const updateUser = async () => {
         await axios.put(`${process.env.REACT_APP_API_URL}person/${params.id}/update`, {
@@ -72,7 +89,8 @@ function PersonEdit() {
             "email": email,
             "phone": phone,
             "address": address,
-            "role": role,
+            "role_type": role,
+            "farm_id": farm,
             "status": status
         },
             {
@@ -87,6 +105,23 @@ function PersonEdit() {
                 alert(error.message)
             })
     };
+
+    const getuserRoles = async () => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/userroles`,
+            { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+                const personData = response.data.data.dbData;
+                setAllrole(personData)
+                setRole(personData[0].id)
+            }).catch(error => {
+                console.log(error.response)
+            });
+    }
+
+    useEffect(() => {
+        document.title = `${process.env.REACT_APP_NAME}`;
+        getuserRoles();
+        getFarmList();
+    }, []);
 
 
     // for submit
@@ -172,7 +207,7 @@ function PersonEdit() {
                                         <div className="card-body">
                                             <div className="row mb-3">
                                                 <div className="col-md-6">
-                                                    <div className="form-floating">
+                                                <label htmlFor="floatingInput">First Name <span className="text-danger">*</span></label>
                                                         <input
                                                             name="firstname"
                                                             type="text"
@@ -182,13 +217,11 @@ function PersonEdit() {
                                                             value={fname}
                                                             onChange={(e) => setFName(e.target.value)}
                                                         />
-                                                        <label htmlFor="floatingInput">First Name <span className="text-danger">*</span></label>
-                                                    </div>
                                                     <p style={{ color: 'red' }}>{fnameError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
-                                                    <div className="form-floating">
+                                                <label htmlFor="floatingInput">Last Name <span className="text-danger">*</span></label>
                                                         <input
                                                             name="lastname"
                                                             type="text"
@@ -198,13 +231,11 @@ function PersonEdit() {
                                                             value={lname}
                                                             onChange={(e) => setLName(e.target.value)}
                                                         />
-                                                        <label htmlFor="floatingInput">Last Name <span className="text-danger">*</span></label>
-                                                    </div>
                                                     <p style={{ color: 'red' }}>{lnameError}</p>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <br />
-                                                    <div className="form-floating">
+                                                    <label htmlFor="floatingInput">Phone Number <span className="text-danger">*</span></label>
                                                         <input
                                                             name="phone"
                                                             type="number"
@@ -214,14 +245,12 @@ function PersonEdit() {
                                                             value={phone}
                                                             onChange={(e) => setPhone(e.target.value)}
                                                         />
-                                                        <label htmlFor="floatingInput">Phone Number <span className="text-danger">*</span></label>
-                                                    </div>
                                                     <p style={{ color: 'red' }}>{phoneError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
                                                     <br />
-                                                    <div className="form-floating">
+                                                    <label htmlFor="floatingInput">Email <span className="text-danger">*</span></label>
                                                         <input
                                                             name="email"
                                                             type="email"
@@ -231,13 +260,11 @@ function PersonEdit() {
                                                             value={email}
                                                             onChange={(e) => setEmail(e.target.value)}
                                                         />
-                                                        <label htmlFor="floatingInput">Email <span className="text-danger">*</span></label>
-                                                    </div>
                                                     <p style={{ color: 'red' }}>{emailError}</p>
                                                 </div>
                                                 <div className="mb-3">
                                                     <br />
-                                                    <div className="form-floating">
+                                                    <label htmlFor="floatingInput">Address<span className="text-danger">*</span></label>
                                                         <textarea
                                                             name="address"
                                                             type="text"
@@ -247,28 +274,9 @@ function PersonEdit() {
                                                             value={address}
                                                             onChange={(e) => setAddress(e.target.value)}
                                                         />
-                                                        <label htmlFor="floatingInput">Address<span className="text-danger">*</span></label>
-                                                    </div>
                                                     <p style={{ color: 'red' }}>{adressError}</p>
 
                                                 </div>
-
-                                                <div className="col-md-6">
-                                                    <br />
-                                                        <label>Role<span className="text-danger">*</span></label>
-
-                                                        <select
-                                                            id="role"
-                                                            className="form-select"
-                                                            name="role"
-                                                            value={role}
-                                                            onChange={(e) => setRole(e.target.value)}>
-                                                            <option value={"H"}>Head of Planning</option>
-                                                            <option value={"C"}>collaborator</option>
-                                                        </select>
-                                                    <p style={{ color: 'red' }}>{roleError}</p>
-                                                </div>
-
                                                 <div className="col-md-6">
                                                     <br />
                                                         <label>Status<span className="text-danger">*</span></label>
@@ -283,6 +291,68 @@ function PersonEdit() {
                                                             <option value={0}>Inactive</option>
 
                                                         </select>
+                                                </div>
+
+                                                <div className="col-md-6">
+                                                    <br />
+                                                    <label>Role<span className="text-danger">*</span></label>
+                                                    {(() => {
+                                                        if (allrole.length > 0) {
+                                                            return (
+                                                                <div>
+                                                                    < select
+                                                                        id="role"
+                                                                        className="form-select"
+                                                                        name="role"
+                                                                        onChange={(e) => setRole(e.target.value)}>
+                                                                        {allrole.map((roles, index) => (
+                                                                            <option key={index} value={roles.id}>{roles.name}</option>
+                                                                        ))}
+                                                                    </select>
+
+                                                                </div>
+
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <option>No Role</option>
+                                                            )
+                                                        }
+                                                    })()}
+
+
+                                                    <p style={{ color: 'red' }}>{roleError}</p>
+                                                </div>
+
+                                                <div className="col-md-6">
+                                                    <br />
+                                                    <label>Farm List</label>
+                                                    {(() => {
+                                                        if (allFarm.length > 0) {
+                                                            return (
+                                                                <div>
+                                                                    < select
+                                                                        id="farm"
+                                                                        className="form-select"
+                                                                        name="farm"
+                                                                        onChange={(e) => setFarm(e.target.value)}>
+                                                                        {allFarm.map((farms, index) => (
+                                                                            <option key={index} value={farms.id}>{farms.name}</option>
+                                                                        ))}
+                                                                    </select>
+
+                                                                </div>
+
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <option>No Farm</option>
+                                                            )
+                                                        }
+                                                    })()}
+
+
+                                                    <p style={{ color: 'red' }}>{roleError}</p>
                                                 </div>
 
                                             </div>

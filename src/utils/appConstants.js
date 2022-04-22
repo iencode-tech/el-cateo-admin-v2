@@ -50,6 +50,8 @@ const filePathUrl = {
   illnesses: `${process.env.REACT_APP_ASSET_URL}/assets/illnesses`,
   rawMaterials: `${process.env.REACT_APP_ASSET_URL}/assets/raw-materials`,
   expertMonitor: `${process.env.REACT_APP_ASSET_URL}/assets/tree-illnesses`,
+  farms: `${process.env.REACT_APP_ASSET_URL}/assets/farms`,
+
 };
 
 const defaultFolialDrencheId = "61c1eee3a713b1e808b2a68f";

@@ -25,7 +25,13 @@ function PersonCreate() {
     const [conpassword, setConPassword] = useState("");
     const [conpasswordError, setConPasswordError] = useState("");
 
-    const [role, setRole] = useState("H");
+    const [allrole, setAllrole] = useState("");
+
+    const [allFarm, setAllFarm] = useState("");
+
+    const [farm, setFarm] = useState("");
+
+    const [role, setRole] = useState("");
     const [roleError, setRoleError] = useState("");
 
     const [status, setStatus] = useState(1);
@@ -56,9 +62,10 @@ function PersonCreate() {
             "email": email,
             "phone": phone,
             "password": password,
-            "confirmPassword":conpassword,
+            "confirmPassword": conpassword,
             "address": address,
-            "role": role,
+            "role_type": role,
+            "farm_id": farm,
             "status": status
         },
             {
@@ -73,7 +80,40 @@ function PersonCreate() {
                 console.log(error.message)
             })
     };
+    const functionrole = (e) => {
+        console.log("AAAAA", e);
+        setRole(e)
+    }
 
+    const getFarmList = async () => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/farms`,
+            { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+                const farmData = response.data.data.dbData;
+                setAllFarm(farmData)
+                setFarm(farmData[0].id)
+                console.log(farmData);
+            }).catch(error => {
+                console.log(error.response)
+            });
+    }
+
+    const getuserRoles = async () => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/userroles`,
+            { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
+                const personData = response.data.data.dbData;
+                setAllrole(personData)
+                setRole(personData[0].id)
+                console.log(role);
+            }).catch(error => {
+                console.log(error.response)
+            });
+    }
+
+    useEffect(() => {
+        document.title = `${process.env.REACT_APP_NAME}`;
+        getFarmList();
+        getuserRoles();
+    }, []);
     // for submit
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -165,153 +205,189 @@ function PersonCreate() {
                                         <div className="card-body">
                                             <div className="row mb-3">
                                                 <div className="col-md-6">
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="firstname"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="firstname"
-                                                            placeholder="Enter first name"
-                                                            value={fname}
-                                                            onChange={(e) => setFName(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">First Name <span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput">First Name <span className="text-danger">*</span></label>
+                                                    <input
+                                                        name="firstname"
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="firstname"
+                                                        placeholder="Enter first name"
+                                                        value={fname}
+                                                        onChange={(e) => setFName(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{fnameError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="lastname"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="lastname"
-                                                            placeholder="Enter last name"
-                                                            value={lname}
-                                                            onChange={(e) => setLName(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Last Name <span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput">Last Name <span className="text-danger">*</span></label>
+                                                    <input
+                                                        name="lastname"
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="lastname"
+                                                        placeholder="Enter last name"
+                                                        value={lname}
+                                                        onChange={(e) => setLName(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{lnameError}</p>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <br />
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="phone"
-                                                            type="number"
-                                                            className="form-control"
-                                                            id="phone"
-                                                            placeholder="Enter phone number"
-                                                            value={phone}
-                                                            onChange={(e) => setPhone(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Phone Number <span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput">Phone Number <span className="text-danger">*</span></label>
+                                                    <input
+                                                        name="phone"
+                                                        type="number"
+                                                        className="form-control"
+                                                        id="phone"
+                                                        placeholder="Enter phone number"
+                                                        value={phone}
+                                                        onChange={(e) => setPhone(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{phoneError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
                                                     <br />
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="email"
-                                                            type="email"
-                                                            className="form-control"
-                                                            id="email"
-                                                            placeholder="Enter email"
-                                                            value={email}
-                                                            onChange={(e) => setEmail(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Email <span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput">Email <span className="text-danger">*</span></label>
+                                                    <input
+                                                        name="email"
+                                                        type="email"
+                                                        className="form-control"
+                                                        id="email"
+                                                        placeholder="Enter email"
+                                                        value={email}
+                                                        onChange={(e) => setEmail(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{emailError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
                                                     <br />
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="password"
-                                                            type="password"
-                                                            className="form-control"
-                                                            id="password"
-                                                            placeholder="Enter password"
-                                                            value={password}
-                                                            onChange={(e) => setPassword(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Password <span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput">Password <span className="text-danger">*</span></label>
+
+                                                    <input
+                                                        name="password"
+                                                        type="password"
+                                                        className="form-control"
+                                                        id="password"
+                                                        placeholder="Enter password"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{passwordError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
                                                     <br />
-                                                    <div className="form-floating">
-                                                        <input
-                                                            name="con-password"
-                                                            type="password"
-                                                            className="form-control"
-                                                            id="con-password"
-                                                            placeholder="Enter confirm password"
-                                                            value={conpassword}
-                                                            onChange={(e) => setConPassword(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput"> Confirm Password <span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput"> Confirm Password <span className="text-danger">*</span></label>
+                                                    <input
+                                                        name="con-password"
+                                                        type="password"
+                                                        className="form-control"
+                                                        id="con-password"
+                                                        placeholder="Enter confirm password"
+                                                        value={conpassword}
+                                                        onChange={(e) => setConPassword(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{conpasswordError}</p>
                                                 </div>
 
 
                                                 <div className="mb-3">
                                                     <br />
-                                                    <div className="form-floating">
-                                                        <textarea
-                                                            name="address"
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="address"
-                                                            placeholder="Enter address"
-                                                            value={address}
-                                                            onChange={(e) => setAddress(e.target.value)}
-                                                        />
-                                                        <label htmlFor="floatingInput">Address<span className="text-danger">*</span></label>
-                                                    </div>
+                                                    <label htmlFor="floatingInput">Address<span className="text-danger">*</span></label>
+
+                                                    <textarea
+                                                        name="address"
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="address"
+                                                        placeholder="Enter address"
+                                                        value={address}
+                                                        onChange={(e) => setAddress(e.target.value)}
+                                                    />
                                                     <p style={{ color: 'red' }}>{adressError}</p>
 
                                                 </div>
 
+
                                                 <div className="col-md-6">
                                                     <br />
-                                                        <label>Role<span className="text-danger">*</span></label>
+                                                    <label>Role<span className="text-danger">*</span></label>
+                                                    {(() => {
+                                                        if (role.length > 0) {
+                                                            return (
+                                                                <div>
+                                                                    < select
+                                                                        id="role"
+                                                                        className="form-select"
+                                                                        name="role"
+                                                                        onChange={(e) => setRole(e.target.value)}>
+                                                                        {allrole.map((roles, index) => (
+                                                                            <option key={index} value={roles.id}>{roles.name}</option>
+                                                                        ))}
+                                                                    </select>
 
-                                                        <select
-                                                            id="role"
-                                                            className="form-select"
-                                                            name="role"
-                                                            value={role}
-                                                            onChange={(e) => setRole(e.target.value)}>
-                                                            <option value={"H"}>Head of Planning</option>
-                                                            <option value={"C"}>Collaborator</option>
-                                                        </select>
+                                                                </div>
+
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <option>No Role</option>
+                                                            )
+                                                        }
+                                                    })()}
+
+
                                                     <p style={{ color: 'red' }}>{roleError}</p>
                                                 </div>
 
                                                 <div className="col-md-6">
                                                     <br />
-                                                        <label>Status<span className="text-danger">*</span></label>
+                                                    <label>Status<span className="text-danger">*</span></label>
 
-                                                        <select
-                                                            id="status"
-                                                            className="form-select"
-                                                            name="status"
-                                                            value={status}
-                                                            onChange={(e) => setStatus(e.target.value)}>
-                                                            <option value={1}>Active</option>
-                                                            <option value={0}>Inactive</option>
+                                                    <select
+                                                        id="status"
+                                                        className="form-select"
+                                                        name="status"
+                                                        value={status}
+                                                        onChange={(e) => setStatus(e.target.value)}>
+                                                        <option value={1}>Active</option>
+                                                        <option value={0}>Inactive</option>
 
-                                                        </select>
+                                                    </select>
+                                                </div>
+
+
+                                                <div className="col-md-6">
+                                                    <br />
+                                                    <label>Farm List</label>
+                                                    {(() => {
+                                                        if (allFarm.length > 0) {
+                                                            return (
+                                                                <div>
+                                                                    < select
+                                                                        id="farm"
+                                                                        className="form-select"
+                                                                        name="farm"
+                                                                        onChange={(e) => setFarm(e.target.value)}>
+                                                                        {allFarm.map((farms, index) => (
+                                                                            <option key={index} value={farms.id}>{farms.name}</option>
+                                                                        ))}
+                                                                    </select>
+
+                                                                </div>
+
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <option>No Farm</option>
+                                                            )
+                                                        }
+                                                    })()}
+
+
+                                                    <p style={{ color: 'red' }}>{roleError}</p>
                                                 </div>
 
                                                 {/* <div className="col-md-6">
@@ -341,9 +417,9 @@ function PersonCreate() {
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
-        </div>
+                </section >
+            </div >
+        </div >
     );
 }
 

@@ -5,7 +5,7 @@ import { faTree, faUsers, faFileAlt, faHome } from "@fortawesome/free-solid-svg-
 import "./Dashboard.scss";
 import Breadcrumb from "../../components/common/breadcrumb/Breadcrumb";
 import { attempt, selectDashboard } from "../../store/redux/Page/Dashboard";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 function Dashboard() {
   const store = useSelector(selectDashboard);
@@ -16,7 +16,7 @@ function Dashboard() {
     if (store.loading === false) {
       dispatch(attempt({}));
     }
-  }, []);
+  }, [store.loading,dispatch]);
   return (
     <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <div className="col-12 p-0 content-wrapper">

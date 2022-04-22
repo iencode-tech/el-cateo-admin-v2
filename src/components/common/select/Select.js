@@ -22,13 +22,13 @@ function SelectDynamic(props) {
   // Remove if Validation causes issue
   useEffect(() => {
     _validate();
-  }, []);
+  });
 
   useEffect(() => {
     if (selectValue === null) {
       setSelectValue(props.value);
     }
-  }, [props.value]);
+  }, [props.value,selectValue]);
 
   return (
     <>

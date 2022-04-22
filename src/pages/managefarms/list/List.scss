@@ -12,13 +12,10 @@
     font-weight: bold;
   }
   .card img {
-    width: 30%;
     border-top-right-radius: 0;
     border-bottom-left-radius: calc(0.25rem - 1px);
     padding: 10px;
-    border-radius: 25px;
     border-color: lightgreen;
-    box-shadow: 2px 2px 2px lightgreen;
 
   }
   @media only screen and (max-width: 768px) {

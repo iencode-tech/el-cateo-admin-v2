@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 function FarmCreate() {
     const initialValues = {
         name: "",
-        assignedOwner: "",
+        owner_id: "",
         address: "",
         area: "",
         status: "1",
@@ -54,8 +54,6 @@ function FarmCreate() {
             setImageData(event.target.files[0]);
         }
     };
-
-
     const _handleOnChange = (e) => {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
@@ -74,15 +72,14 @@ function FarmCreate() {
         formData.append("files", imageData);
         setIsSubmit(true);
 
-         await   axios.post(`${process.env.REACT_APP_API_URL}/farm/store`, formData, {
-                    headers: { Authorization: fetchAuthToken() },
-                })
-                .then((response) => {
-                    alert(response.message)
-                    history.push("/farms");
-                }).catch((error) => {
-                    alert(error.message)
-                });
+        await axios.post(`${process.env.REACT_APP_API_URL}/farm/store`, formData, {
+            headers: { Authorization: fetchAuthToken() },
+        })
+            .then((response) => {
+                history.push("/farms");
+            }).catch((error) => {
+                alert(error.message)
+            });
     };
     const validate = (values) => {
         const errors = {};
@@ -238,6 +235,21 @@ function FarmCreate() {
                                                     </select>
                                                 </div>
                                                 <div className="col-md-6">
+                                                    <label>Owner Name</label>
+                                                    <br />
+                                                    <select
+                                                        id="input4"
+                                                        className="form-select"
+                                                        name="status"
+                                                        value={formValues.owner_id}
+                                                        onChange={_handleOnChange}
+                                                    >
+                                                        <option>Coming soon</option>
+
+                                                    </select>
+                                                </div>
+                                                <div className="col-md-6">
+
                                                     <div style={{
                                                         display: 'flex',
                                                         margin: 10,
@@ -252,6 +264,7 @@ function FarmCreate() {
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
+                                                    <br />
                                                     <img src={image} width={300}
                                                         height={150} />
 

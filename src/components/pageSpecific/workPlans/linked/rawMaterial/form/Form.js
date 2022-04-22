@@ -11,13 +11,13 @@ function RawMaterialForm({
   _checkFolialDrenche,
   _checkManual,
 }) {
-  const _getAmountPerTree = () => {
-    let amountPerTree = 1;
-    if (formData.amountPerTree && formData.amountPerTree !== 0) {
-      amountPerTree = parseFloat(formData.amountPerTree);
-    }
-    return amountPerTree;
-  };
+  // const _getAmountPerTree = () => {
+  //   let amountPerTree = 1;
+  //   if (formData.amountPerTree && formData.amountPerTree !== 0) {
+  //     amountPerTree = parseFloat(formData.amountPerTree);
+  //   }
+  //   return amountPerTree;
+  // };
 
   const _calculateTotalBasedOnMethod = () => {
     let totalQ = 0;
@@ -64,7 +64,7 @@ function RawMaterialForm({
                           totalMethodBased: `${
                             (rawMaterial.quantity / 1000) *
                             (workPlanMethods[parseInt(formData.methodId)].value / 1000)
-                          }` + ' ' + workPlanMethods[parseInt(formData.methodId)].totalunit,
+                          }` + " " + workPlanMethods[parseInt(formData.methodId)].totalunit,
                         }
                       : {}),
                     ...(_checkManual()

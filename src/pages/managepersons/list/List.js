@@ -41,7 +41,6 @@ function PersonList() {
     "Name",
     "Email",
     "Phone",
-    "Role",
     "Added Date",
     "Status",
     "",
@@ -59,6 +58,8 @@ function PersonList() {
 
 
   };
+
+  
 
   const removeById = async (e, id) => {
     e.preventDefault();
@@ -147,7 +148,7 @@ function PersonList() {
                         name: `${listData.firstName} ${listData.lastName}`,
                         email: listData.email,
                         phone: listData.phone,
-                        role: personRoles[listData.role],
+                        // role: personRoles[listData.role],
                         createdAt: utcToLocalTime(listData.createdAt),
                         status: statuses[listData.status],
                         actions: (
@@ -203,7 +204,7 @@ function PersonList() {
                       nextLabel=" >>"
                       onPageChange={handlePageClick}
                       // pageRangeDisplayed={10}
-                      pageCount={tCount / 10}
+                      pageCount={ Math.ceil(tCount / 10)}
                       previousLabel="<<"
                       renderOnZeroPageCount={null}
                       containerClassName={"pagination justify-content-center"}

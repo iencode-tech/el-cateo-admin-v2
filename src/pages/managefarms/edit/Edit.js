@@ -3,14 +3,14 @@ import { useHistory } from 'react-router-dom';
 import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import axios from "axios";
 import { useParams } from "react-router";
-import { statuses } from "../../../utils/appConstants";
+import { statuses,filePathUrl  } from "../../../utils/appConstants";
 
 
 function FarmEdit() {
 
     const initialValues = {
         name: "",
-        assignedOwner: "",
+        owner_id: "",
         address: "",
         area: "",
         status: "",
@@ -41,6 +41,7 @@ function FarmEdit() {
         },
     ];
     const onImageChange = (event) => {
+        console.log("event : ", event);
         if (event.target.files && event.target.files[0]) {
             setImage(URL.createObjectURL(event.target.files[0]));
             setImageData(event.target.files[0]);
@@ -173,11 +174,11 @@ function FarmEdit() {
 
 
                                                 <div className="col-md-6">
-                                                    <label htmlFor="floatingInput">Area <span className="text-danger">*</span></label>
+                                                    <label htmlFor="floatingInput">Area {" "}(Square Hector) <span className="text-danger">*</span></label>
                                                     <br />
                                                     <input
                                                         name="name"
-                                                        type="text"
+                                                        type="number"
                                                         className="form-control"
                                                         id="name"
                                                         placeholder="Enter area"
@@ -219,6 +220,20 @@ function FarmEdit() {
                                                         ))}
                                                     </select>
                                                 </div>
+                                                <div className="col-md-6">
+                                                    <label>Owner Name</label>
+                                                    <br />
+                                                    <select
+                                                        id="input4"
+                                                        className="form-select"
+                                                        name="status"
+                                                        value={formValues.owner_id}
+                                                        onChange={_handleOnChange}
+                                                    >
+                                                        <option>Coming soon</option>
+
+                                                    </select>
+                                                </div>
 
                                                 <div className="col-md-6">
                                                     <div style={{
@@ -229,12 +244,12 @@ function FarmEdit() {
                                                     }}>
                                                         <input accept="image/*" id="icon-button-file"
                                                             type="file" onChange={onImageChange}
-                                                            value=""
                                                         />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
-                                                    <img src={image} width={300}
+                                                    <br/>
+                                                    <img src={filePathUrl.farms + "/" + formValues.files} width={300}
                                                         height={150} />
 
                                                 </div>
@@ -242,7 +257,7 @@ function FarmEdit() {
                                         </div>
                                         <div className="card-footer clearfix">
                                             <button type="submit" className="btn btn-sm btn-app float-end">
-                                                Save
+                                                Update
                                             </button>
                                         </div>
                                     </form>
