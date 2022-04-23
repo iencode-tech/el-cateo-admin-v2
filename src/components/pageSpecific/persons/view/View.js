@@ -54,7 +54,16 @@ function PersonView({ formData }) {
           Role
         </label>
         <span id="input6" className="form-control">
-          {personRoles[formData.role]}
+          {personRoles[formData.role_type]}
+        </span>
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="input6" className="form-label">
+          Assigned Farm
+        </label>
+        <span id="input6" className="form-control">
+          {personRoles[formData.farm_id]}
         </span>
       </div>
 

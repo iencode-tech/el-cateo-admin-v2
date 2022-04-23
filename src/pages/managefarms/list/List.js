@@ -6,11 +6,9 @@ import axios from "axios";
 import { statuses,filePathUrl  } from "../../../utils/appConstants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faEdit,
-    faEye,
-    faRedo,
-    faSearch,
-    faTrash,
+  faEdit,
+  faLock,
+  faTasks
 } from "@fortawesome/free-solid-svg-icons";
 import ReactPaginate from 'react-paginate';
 import { TextareaAutosize } from "@material-ui/core";
@@ -170,9 +168,9 @@ function ManageFarm() {
                                                     <li>
                                                         <Link
                                                             className="dropdown-item"
-                                                            to={`/farms/${users.id}/edit`}
+                                                            to={`/farms/manage`}
                                                         >
-                                                            Manage
+                                                            <FontAwesomeIcon icon={faTasks} />{" "} Manage
                                                         </Link>
                                                     </li>
                                                     <li>
@@ -181,15 +179,15 @@ function ManageFarm() {
                                                             to={`/farms/${users.id}/edit`}
 
                                                         >
-                                                            Edit
+                                                            <FontAwesomeIcon icon={faEdit} />{" "}Edit
                                                         </Link>
                                                     </li>
                                                     <li>
                                                         <Link
                                                             className="dropdown-item"
-                                                            to={`/farms/${users.id}/edit`}
+                                                            to={""}
                                                         >
-                                                            Status
+                                                            <FontAwesomeIcon icon={faLock} />{" "}Status
                                                         </Link>
                                                     </li>
                                                 </ul>

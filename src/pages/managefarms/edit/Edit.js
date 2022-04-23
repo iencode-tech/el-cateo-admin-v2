@@ -227,8 +227,7 @@ function FarmEdit() {
                                                         id="input4"
                                                         className="form-select"
                                                         name="status"
-                                                        value={formValues.owner_id}
-                                                        onChange={_handleOnChange}
+                                                        disabled
                                                     >
                                                         <option>Coming soon</option>
 

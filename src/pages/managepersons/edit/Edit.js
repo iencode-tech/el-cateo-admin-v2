@@ -63,6 +63,7 @@ function PersonEdit() {
                 setPhone(userData.phone);
                 setAddress(userData.address);
                 setRole(userData.role_type);
+                setFarm(userData.farm_id);
                 setStatus(userData.status);
 
             }).catch(error => {
@@ -83,7 +84,7 @@ function PersonEdit() {
     }
 
     const updateUser = async () => {
-        await axios.put(`${process.env.REACT_APP_API_URL}person/${params.id}/update`, {
+        await axios.put(`${process.env.REACT_APP_API_URL}/person/${params.id}/update`, {
             "firstName": fname,
             "lastName": lname,
             "email": email,

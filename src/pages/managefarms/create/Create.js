@@ -188,11 +188,11 @@ function FarmCreate() {
                                                 </div>
 
                                                 <div className="col-md-6">
-                                                    <label htmlFor="floatingInput">Area <span className="text-danger">*</span></label>
+                                                    <label htmlFor="floatingInput">Area{" "}(Square Hector) <span className="text-danger">*</span></label>
                                                     <br />
                                                     <input
                                                         name="area"
-                                                        type="text"
+                                                        type="number"
                                                         className="form-control"
                                                         id="area"
                                                         placeholder="Enter area"
@@ -241,8 +241,7 @@ function FarmCreate() {
                                                         id="input4"
                                                         className="form-select"
                                                         name="status"
-                                                        value={formValues.owner_id}
-                                                        onChange={_handleOnChange}
+                                                        disabled
                                                     >
                                                         <option>Coming soon</option>
 
