@@ -14,7 +14,6 @@ import IconButton from '@material-ui/core/IconButton';
 function FarmCreate() {
     const initialValues = {
         name: "",
-        owner_id: "",
         address: "",
         area: "",
         status: "1",
@@ -65,7 +64,6 @@ function FarmCreate() {
         setFormErrors(validate(formValues));
         let formData = new FormData();
         formData.append("name", formValues.name);
-        formData.append("assignedOwner", formValues.assignedOwner);
         formData.append("address", formValues.address);
         formData.append("area", formValues.area);
         formData.append("status", formValues.status);
@@ -232,19 +230,6 @@ function FarmCreate() {
                                                                 {statuses[status]}
                                                             </option>
                                                         ))}
-                                                    </select>
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label>Owner Name</label>
-                                                    <br />
-                                                    <select
-                                                        id="input4"
-                                                        className="form-select"
-                                                        name="status"
-                                                        disabled
-                                                    >
-                                                        <option>Coming soon</option>
-
                                                     </select>
                                                 </div>
                                                 <div className="col-md-6">

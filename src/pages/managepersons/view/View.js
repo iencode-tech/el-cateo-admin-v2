@@ -6,13 +6,14 @@ import axios from "axios";
 function PersonView() {
     const params = useParams();
     const pageName = "View person";
-    const [person, setInfo] = useState({
+    var [person, setInfo] = useState({
         address:"",
         email:"",
         firstName:"",
         lastName:"",
         phone:"",
-        role:"",
+        farm_details:{},
+        user_role:{},
         status:""
     });
     const breadCrumbs = [
@@ -34,8 +35,7 @@ function PersonView() {
         await axios.get(`${process.env.REACT_APP_API_URL}/person/${params.id}/read`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const personData = response.data.data;
-                setInfo(personData);
-
+                setInfo(personData[0]);
             }).catch(error => {
                 console.log(error.response)
             });

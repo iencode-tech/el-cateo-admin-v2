@@ -2,6 +2,7 @@ import React from "react";
 import { personRoles, statuses } from "../../../../utils/appConstants";
 
 function PersonView({ formData }) {
+  // console.log("....", formData)
   return (
     <>
       <div className="mb-3">
@@ -48,24 +49,59 @@ function PersonView({ formData }) {
           {formData.address}
         </span>
       </div>
+      {(() => {
+        if (formData.user_role != null) {
+          return (
+            <div className="mb-3">
+              <label htmlFor="input6" className="form-label">
+                Role
+              </label>
+              <span id="input6" className="form-control">
+                {formData.user_role.name}
+              </span>
+            </div>
 
-      <div className="mb-3">
-        <label htmlFor="input6" className="form-label">
-          Role
-        </label>
-        <span id="input6" className="form-control">
-          {personRoles[formData.role_type]}
-        </span>
-      </div>
+          )
+        } else {
+          return (
+            <div className="mb-3">
+              <label htmlFor="input6" className="form-label">
+                Role
+              </label>
+              <span id="input6" className="form-control">
+                No Role Assgined
+              </span>
+            </div>)
+        }
+      })()}
 
-      <div className="mb-3">
-        <label htmlFor="input6" className="form-label">
-          Assigned Farm
-        </label>
-        <span id="input6" className="form-control">
-          {personRoles[formData.farm_id]}
-        </span>
-      </div>
+
+      {(() => {
+        if (formData.farm_details != null) {
+          return (
+            <div className="mb-3">
+              <label htmlFor="input6" className="form-label">
+                Assigned Farm
+              </label>
+              <span id="input6" className="form-control">
+                {formData.farm_details.name}
+              </span>
+            </div>
+
+          )
+        } else {
+          return (
+            <div className="mb-3">
+              <label htmlFor="input6" className="form-label">
+                Assigned Farm
+              </label>
+              <span id="input6" className="form-control">
+                No Farm Assgined
+              </span>
+            </div>
+            )
+        }
+      })()}
 
       <div className="mb-3">
         <label htmlFor="input9" className="form-label">

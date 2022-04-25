@@ -44,7 +44,7 @@ function PersonEdit() {
 
     const [allFarm, setAllFarm] = useState("");
 
-    const [farm, setFarm] = useState("");
+    const [farm, setFarm] = useState({});
 
     const [role, setRole] = useState("");
     const [roleError, setRoleError] = useState("");
@@ -57,14 +57,16 @@ function PersonEdit() {
                 headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) }
             }).then((response) => {
                 const userData = response.data.data;
-                setFName(userData.firstName);
-                setLName(userData.lastName);
-                setEmail(userData.email);
-                setPhone(userData.phone);
-                setAddress(userData.address);
-                setRole(userData.role_type);
-                setFarm(userData.farm_id);
-                setStatus(userData.status);
+                setFName(userData[0].firstName);
+                setLName(userData[0].lastName);
+                setEmail(userData[0].email);
+                setPhone(userData[0].phone);
+                setAddress(userData[0].address);
+                setRole(userData[0].role_type);
+                setFarm(userData[0].farm_details.name);
+                setStatus(userData[0].status);
+
+                console.log(".....",userData[0].farm_details.name)
 
             }).catch(error => {
                 console.log(error.response)
@@ -336,6 +338,7 @@ function PersonEdit() {
                                                                         id="farm"
                                                                         className="form-select"
                                                                         name="farm"
+                                                                        value={farm}
                                                                         onChange={(e) => setFarm(e.target.value)}>
                                                                         {allFarm.map((farms, index) => (
                                                                             <option key={index} value={farms.id}>{farms.name}</option>

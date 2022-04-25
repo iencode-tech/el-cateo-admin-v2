@@ -10,7 +10,6 @@ function FarmEdit() {
 
     const initialValues = {
         name: "",
-        owner_id: "",
         address: "",
         area: "",
         status: "",
@@ -220,19 +219,7 @@ function FarmEdit() {
                                                         ))}
                                                     </select>
                                                 </div>
-                                                <div className="col-md-6">
-                                                    <label>Owner Name</label>
-                                                    <br />
-                                                    <select
-                                                        id="input4"
-                                                        className="form-select"
-                                                        name="status"
-                                                        disabled
-                                                    >
-                                                        <option>Coming soon</option>
-
-                                                    </select>
-                                                </div>
+                                             
 
                                                 <div className="col-md-6">
                                                     <div style={{
