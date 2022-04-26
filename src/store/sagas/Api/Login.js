@@ -21,6 +21,7 @@ function* triggerApi(action) {
       process.env.REACT_APP_AUTH_KEY_NAME,
       json.data.access_token
     );
+    
     localStorage.setItem(
       process.env.REACT_USER_DATA,
       JSON.stringify(json.data)

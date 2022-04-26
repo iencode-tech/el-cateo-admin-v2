@@ -12,6 +12,8 @@ function FarmEdit() {
         name: "",
         address: "",
         area: "",
+        owner_id: "",
+        created_by: "",
         status: "",
         files: ""
     };
@@ -76,12 +78,20 @@ function FarmEdit() {
     // api calling for update user
     const _handleFormSubmit = async (e) => {
         e.preventDefault();
+        
+        var userData = {};
+        userData = localStorage.getItem(process.env.REACT_USER_DATA);
+        const obj = JSON.parse(userData);
+
+
         setFormErrors(validate(formValues));
         let formData = new FormData();
         formData.append("name", formValues.name);
         formData.append("assignedOwner", formValues.assignedOwner);
         formData.append("address", formValues.address);
         formData.append("area", formValues.area);
+        formData.append("owner_id", obj.id);
+        formData.append("created_by", obj.id);
         formData.append("status", formValues.status);
         formData.append("files", imageData);
         setIsSubmit(true);

@@ -142,10 +142,10 @@ const routes = [
     path: "/farms/:id/edit",
     component: <EditFarm />
   },
-  {
-    path: "/farms/manage",
-    component: <Comingsoon />
-  },
+  // {
+  //   path: "/farms/manage",
+  //   component: <Comingsoon />
+  // },
 
   //manage sectors
   {

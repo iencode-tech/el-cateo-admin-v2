@@ -3,16 +3,19 @@ import Breadcrumb from "../../../components/common/breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
 import "./List.scss";
 import axios from "axios";
-import { statuses,filePathUrl  } from "../../../utils/appConstants";
+import { useHistory } from 'react-router-dom';
+import { statuses, filePathUrl } from "../../../utils/appConstants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faEdit,
-  faLock,
-  faTasks
+    faEdit,
+    faLock,
+    faTasks
 } from "@fortawesome/free-solid-svg-icons";
 import ReactPaginate from 'react-paginate';
 import { TextareaAutosize } from "@material-ui/core";
 import { Button } from "@material-ui/core";
+import { useParams } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 
 
@@ -26,6 +29,15 @@ function ManageFarm() {
     const [tCount, setTCount] = useState(0);
 
     var [search, setSearch] = useState("");
+    const params = useParams();
+    const history = useHistory();
+    // let navigate = useNavigate(); 
+
+
+    let manageFarm = (farmId) => {
+        let userId = JSON.parse(localStorage.getItem(process.env.REACT_USER_DATA));
+        window.open("http://localhost:3000/login-by-owner/" + userId.id + "/" + farmId); 
+    };
 
     let getUsers = async (search, page) => {
         await axios.get(`${process.env.REACT_APP_API_URL}/farms?keyword=${search}&page=${page}`,
@@ -107,18 +119,18 @@ function ManageFarm() {
                         <br />
                         <div className="row" >
                             {user.map(users => (
-                                <div  key ={users.id}className="col-md-6">
+                                <div key={users.id} className="col-md-6">
                                     {/* new card */}
                                     <div className="card" >
 
                                         {(() => {
                                             if (users?.files?.length > 0) {
                                                 return (
-                                                    <div style={{width:'25%'}}>
+                                                    <div style={{ width: '25%' }}>
                                                         {
-                                                            users.files.map((images,index) => (
-                                                                <img 
-                                                               key={index} src={filePathUrl.farms + "/" + images} className="card-img-top" />
+                                                            users.files.map((images, index) => (
+                                                                <img
+                                                                    key={index} src={filePathUrl.farms + "/" + images} className="card-img-top" />
                                                             ))
                                                         }
                                                     </div>
@@ -146,7 +158,7 @@ function ManageFarm() {
                                                 } else {
                                                     return (
                                                         <p className="card-text">Address : Not registered</p>
-                                                        )
+                                                    )
                                                 }
                                             })()}
 
@@ -166,12 +178,12 @@ function ManageFarm() {
                                                 >
 
                                                     <li>
-                                                        <Link
+                                                        <button
                                                             className="dropdown-item"
-                                                            to={`/farms/manage`}
+                                                            onClick={() => {manageFarm(users.id)}}
                                                         >
                                                             <FontAwesomeIcon icon={faTasks} />{" "} Manage
-                                                        </Link>
+                                                        </button>
                                                     </li>
                                                     <li>
                                                         <Link
