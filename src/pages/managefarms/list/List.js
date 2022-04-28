@@ -36,19 +36,21 @@ function ManageFarm() {
 
     let manageFarm = (farmId) => {
         let userId = JSON.parse(localStorage.getItem(process.env.REACT_USER_DATA));
-        window.open("http://localhost:3000/login-by-owner/" + userId.id + "/" + farmId); 
+        window.open("http://localhost:3001/login-by-owner/" + userId.id + "/" + farmId); 
     };
 
     let getUsers = async (search, page) => {
-        await axios.get(`${process.env.REACT_APP_API_URL}/farms?keyword=${search}&page=${page}`,
+        let userId = JSON.parse(localStorage.getItem(process.env.REACT_USER_DATA));
+
+        await axios.get(`${process.env.REACT_APP_API_URL}/`+ userId.id +`/farms?keyword=${search}&page=${page}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const userData = response.data.data.dbData;
                 setInfo(userData);
                 setFileUrl(userData.files)
                 setTCount(response.data.data.dbCount)
-                if (response.data.data.dbData === 0) {
-                    getUsers();
+                if (userData?.length == 0) {
                     alert('No data found.');
+                    getUsers();
                 }
             }).catch(error => {
                 console.log(error.response)
