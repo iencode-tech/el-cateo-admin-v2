@@ -34,15 +34,18 @@ function ManageFarm() {
     // let navigate = useNavigate(); 
 
 
-    let manageFarm = (farmId) => {
+    let manageFarm = (farmId, farmNmae) => {
+        // console.log("pppp",farmId,farmNmae);
         let userId = JSON.parse(localStorage.getItem(process.env.REACT_USER_DATA));
-        window.open("http://localhost:3001/login-by-owner/" + userId.id + "/" + farmId); 
+        window.open(`${process.env.REACT_APP_MANAGEFARM_URL}/login-by-owner/` + userId.id + `/` + farmId + `/` + farmNmae,`_self`); 
+
+        // window.open("https://www.youraddress.com", "_self")
     };
 
     let getUsers = async (search, page) => {
         let userId = JSON.parse(localStorage.getItem(process.env.REACT_USER_DATA));
 
-        await axios.get(`${process.env.REACT_APP_API_URL}/`+ userId.id +`/farms?keyword=${search}&page=${page}`,
+        await axios.get(`${process.env.REACT_APP_API_URL}/` + userId.id + `/farms?keyword=${search}&page=${page}`,
             { headers: { "authorization": localStorage.getItem(process.env.REACT_APP_AUTH_KEY_NAME) } }).then((response) => {
                 const userData = response.data.data.dbData;
                 setInfo(userData);
@@ -182,7 +185,7 @@ function ManageFarm() {
                                                     <li>
                                                         <button
                                                             className="dropdown-item"
-                                                            onClick={() => {manageFarm(users.id)}}
+                                                            onClick={() => { manageFarm(users.id, users.name) }}
                                                         >
                                                             <FontAwesomeIcon icon={faTasks} />{" "} Manage
                                                         </button>
