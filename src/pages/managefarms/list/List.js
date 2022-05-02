@@ -37,7 +37,7 @@ function ManageFarm() {
     let manageFarm = (farmId, farmNmae) => {
         // console.log("pppp",farmId,farmNmae);
         let userId = JSON.parse(localStorage.getItem(process.env.REACT_USER_DATA));
-        window.open(`${process.env.REACT_APP_MANAGEFARM_URL}/login-by-owner/` + userId.id + `/` + farmId + `/` + farmNmae,`_self`); 
+        window.open(`${process.env.REACT_APP_MANAGEFARM_URL}/login-by-owner/` + userId.id + `/` + farmId + `/` + farmNmae, `_self`);
 
         // window.open("https://www.youraddress.com", "_self")
     };
@@ -124,18 +124,16 @@ function ManageFarm() {
                         <br />
                         <div className="row" >
                             {user.map(users => (
-                                <div key={users.id} className="col-md-6">
-                                    {/* new card */}
-                                    <div className="card" >
-
+                                <div key={users.id} className="col-md-3">
+                                    <div className="card" style={{ width: 18 + "rem" }}>
                                         {(() => {
                                             if (users?.files?.length > 0) {
                                                 return (
-                                                    <div style={{ width: '25%' }}>
+                                                    <div style={{ width: '100%' }}>
                                                         {
                                                             users.files.map((images, index) => (
-                                                                <img
-                                                                    key={index} src={filePathUrl.farms + "/" + images} className="card-img-top" />
+                                                                <img className="card-img-top" alt="Card image cap"
+                                                                    key={index} src={filePathUrl.farms + "/" + images} />
                                                             ))
                                                         }
                                                     </div>
@@ -143,12 +141,10 @@ function ManageFarm() {
                                                 )
                                             } else {
                                                 return (
-                                                    // <img src="images/402-bg.jpg" className="card-img-top" />
                                                     <p>Image not Available</p>
                                                 )
                                             }
                                         })()}
-
                                         <div className="card-body">
                                             <h5 className="card-title">{users.name}</h5>
                                             {(() => {
@@ -166,12 +162,9 @@ function ManageFarm() {
                                                     )
                                                 }
                                             })()}
-
-                                            {/* manage section */}
-
                                             <div className="dropdown">
                                                 <button
-                                                    className="btn btn-outline-app dropdown-toggle cursor"
+                                                    className="btn  cursor text-right"
                                                     type="button"
                                                     data-bs-toggle="dropdown"
                                                     aria-expanded="false"
@@ -208,11 +201,10 @@ function ManageFarm() {
                                                         </Link>
                                                     </li>
                                                 </ul>
-                                            </div>
-                                            {/* end */}
-                                        </div>
+                                            </div>                                        </div>
                                     </div>
-                                    {/* end */}
+
+
                                 </div>
                             ))}
 
